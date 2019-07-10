@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns='http://www.ehcache.org/v3'
+        xsi:schemaLocation="http://www.ehcache.org/v3 
+    http://www.ehcache.org/schema/ehcache-core.xsd">
+
+    <!-- 缓存到磁盘使用的目录 -->
+    <persistence directory="${java.io.tmpdir}/ehcache"/>
+    <!--缓存模板-->
+    <cache-template name="default">
+        <expiry>
+            <ttl unit="seconds">600</ttl>
+        </expiry>
+        <resources>
+            <!--堆内内存可以放2000个条目，超出部分堆外100MB-->
+           <heap unit="entries">2000</heap>
+            <offheap unit="MB">100</offheap>
+        </resources>
+    </cache-template>
+    <!--实际的缓存区间，继承了default缓存模板,users 完全使用模板默认-->
+    <cache alias="users" uses-template="default"></cache>
+    <!--继承了default缓存模板，但覆盖了缓存的过期时间-->
+    <cache alias="apps" uses-template="default">
+        <expiry>
+            <ttl unit="days">1</ttl>
+        </expiry>
+    </cache>
+</config>

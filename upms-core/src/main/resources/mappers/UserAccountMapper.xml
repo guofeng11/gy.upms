@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gy.upms.dao.UserAccountMapper">
+    <resultMap id="BaseResultMap" type="com.gy.upms.entity.UserAccount">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="usertype" jdbcType="VARCHAR" property="usertype" />
+        <result column="comeform" jdbcType="INTEGER" property="comeform" />
+        <result column="userlevel" jdbcType="INTEGER" property="userlevel" />
+        <result column="org_id" jdbcType="INTEGER" property="orgId" />
+        <result column="jobtitle_id" jdbcType="INTEGER" property="jobtitleId" />
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+        <result column="creater_id" jdbcType="INTEGER" property="createrId" />
+        <result column="creater" jdbcType="VARCHAR" property="creater" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, username, nickname, password, status, email, phone, usertype, comeform, userlevel,
+    org_id, jobtitle_id, createtime, creater_id, creater
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user_account
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_account
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.gy.upms.entity.UserAccount">
+        <selectKey keyProperty="id" keyColumn="id" resultType="java.lang.Integer" order="AFTER">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into user_account (id, username, nickname,
+        password, status, email,
+        phone, usertype, comeform,
+        userlevel, org_id, jobtitle_id,
+        createtime, creater_id, creater
+        )
+        values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR},
+        #{phone,jdbcType=VARCHAR}, #{usertype,jdbcType=VARCHAR}, #{comeform,jdbcType=INTEGER},
+        #{userlevel,jdbcType=INTEGER}, #{orgId,jdbcType=INTEGER}, #{jobtitleId,jdbcType=INTEGER},
+        #{createtime,jdbcType=TIMESTAMP}, #{createrId,jdbcType=INTEGER}, #{creater,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.gy.upms.entity.UserAccount">
+        insert into user_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="nickname != null">
+                nickname,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="usertype != null">
+                usertype,
+            </if>
+            <if test="comeform != null">
+                comeform,
+            </if>
+            <if test="userlevel != null">
+                userlevel,
+            </if>
+            <if test="orgId != null">
+                org_id,
+            </if>
+            <if test="jobtitleId != null">
+                jobtitle_id,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="createrId != null">
+                creater_id,
+            </if>
+            <if test="creater != null">
+                creater,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null">
+                #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="usertype != null">
+                #{usertype,jdbcType=VARCHAR},
+            </if>
+            <if test="comeform != null">
+                #{comeform,jdbcType=INTEGER},
+            </if>
+            <if test="userlevel != null">
+                #{userlevel,jdbcType=INTEGER},
+            </if>
+            <if test="orgId != null">
+                #{orgId,jdbcType=INTEGER},
+            </if>
+            <if test="jobtitleId != null">
+                #{jobtitleId,jdbcType=INTEGER},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createrId != null">
+                #{createrId,jdbcType=INTEGER},
+            </if>
+            <if test="creater != null">
+                #{creater,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.gy.upms.entity.UserAccount">
+        update user_account
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null">
+                nickname = #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="usertype != null">
+                usertype = #{usertype,jdbcType=VARCHAR},
+            </if>
+            <if test="comeform != null">
+                comeform = #{comeform,jdbcType=INTEGER},
+            </if>
+            <if test="userlevel != null">
+                userlevel = #{userlevel,jdbcType=INTEGER},
+            </if>
+            <if test="orgId != null">
+                org_id = #{orgId,jdbcType=INTEGER},
+            </if>
+            <if test="jobtitleId != null">
+                jobtitle_id = #{jobtitleId,jdbcType=INTEGER},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createrId != null">
+                creater_id = #{createrId,jdbcType=INTEGER},
+            </if>
+            <if test="creater != null">
+                creater = #{creater,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.gy.upms.entity.UserAccount">
+    update user_account
+    set username = #{username,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      email = #{email,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      usertype = #{usertype,jdbcType=VARCHAR},
+      comeform = #{comeform,jdbcType=INTEGER},
+      userlevel = #{userlevel,jdbcType=INTEGER},
+      org_id = #{orgId,jdbcType=INTEGER},
+      jobtitle_id = #{jobtitleId,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      creater_id = #{createrId,jdbcType=INTEGER},
+      creater = #{creater,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="login" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user_account
+        where username=#{username} and password=#{password}
+    </select>
+    <select id="countUser" resultType="Integer">
+    select count(1)
+    from user_account
+    where username=#{username} or phone=#{phone} or email=#{email}
+  </select>
+    <select id="selectByPage"   resultMap="BaseResultMap,Rows">
+        select
+        <include refid="com.gy.upms.dao.CommonMapper.pageSelectColumn"></include>
+        <include refid="Base_Column_List" />
+        from user_account
+        <where>
+            <choose>
+                <when test="record.id != null">
+                    id=#{record.id }
+                </when>
+                <otherwise>
+                    <if test="record.username != null">
+                        username=#{record.username }
+                    </if>
+                    <if test="record.nickname != null">
+                        AND   nickname=#{record.nickname }
+                    </if>
+                    <if test="record.status != null">
+                        AND status=#{record.status }
+                    </if>
+                    <if test="record.email != null">
+                        AND email=#{record.email }
+                    </if>
+                    <if test="record.phone != null">
+                        <bind name="phone" value="record.phone + '%'" />
+                        AND phone like #{phone}
+                    </if>
+                    <if test="record.usertype != null">
+                        AND usertype=#{record.usertype }
+                    </if>
+                    <if test="record.comeform != null">
+                        AND  comeform=#{record.comeform }
+                    </if>
+                    <if test="record.userlevel != null">
+                        AND userlevel=#{record.userlevel },
+                    </if>
+                    <if test="record.orgId != null">
+                        AND orgId=#{record.orgId }
+                    </if>
+                    <if test="record.jobtitleId != null">
+                        AND jobtitleId=#{record.jobtitleId }
+                    </if>
+                    <if test="record.createtime != null">
+                        AND createtime=#{record.createtime }
+                    </if>
+                    <if test="record.creater != null">
+                        AND creater=#{record.creater }
+                    </if>
+                </otherwise>
+            </choose>
+        </where>
+        order by id asc
+        LIMIT #{offset},#{rows};
+        <include refid="com.gy.upms.dao.CommonMapper.pageSelectRows"></include>
+    </select>
+</mapper>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gy.upms.dao.AddressMapper">
+  <resultMap id="BaseResultMap" type="com.gy.upms.entity.Address">
+    <id column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name_cn" jdbcType="VARCHAR" property="nameCn" />
+    <result column="name_en" jdbcType="VARCHAR" property="nameEn" />
+    <result column="parent_code" jdbcType="VARCHAR" property="parentCode" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="abbreviation_cn" jdbcType="VARCHAR" property="abbreviationCn" />
+    <result column="abbreviation_en" jdbcType="VARCHAR" property="abbreviationEn" />
+    <result column="creater_id" jdbcType="INTEGER" property="createrId" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    code, name_cn, name_en, parent_code, level, abbreviation_cn, abbreviation_en, creater_id, 
+    creater, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from address
+    where code = #{code,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from address
+    where code = #{code,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gy.upms.entity.Address">
+    insert into address (code, name_cn, name_en, 
+      parent_code, level, abbreviation_cn, 
+      abbreviation_en, creater_id, creater, 
+      create_time)
+    values (#{code,jdbcType=VARCHAR}, #{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, 
+      #{parentCode,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{abbreviationCn,jdbcType=VARCHAR}, 
+      #{abbreviationEn,jdbcType=VARCHAR}, #{createrId,jdbcType=INTEGER}, #{creater,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gy.upms.entity.Address">
+    insert into address
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="code != null">
+        code,
+      </if>
+      <if test="nameCn != null">
+        name_cn,
+      </if>
+      <if test="nameEn != null">
+        name_en,
+      </if>
+      <if test="parentCode != null">
+        parent_code,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="abbreviationCn != null">
+        abbreviation_cn,
+      </if>
+      <if test="abbreviationEn != null">
+        abbreviation_en,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="creater != null">
+        creater,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="nameCn != null">
+        #{nameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="nameEn != null">
+        #{nameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null">
+        #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="abbreviationCn != null">
+        #{abbreviationCn,jdbcType=VARCHAR},
+      </if>
+      <if test="abbreviationEn != null">
+        #{abbreviationEn,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=INTEGER},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gy.upms.entity.Address">
+    update address
+    <set>
+      <if test="nameCn != null">
+        name_cn = #{nameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="nameEn != null">
+        name_en = #{nameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null">
+        parent_code = #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="abbreviationCn != null">
+        abbreviation_cn = #{abbreviationCn,jdbcType=VARCHAR},
+      </if>
+      <if test="abbreviationEn != null">
+        abbreviation_en = #{abbreviationEn,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=INTEGER},
+      </if>
+      <if test="creater != null">
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where code = #{code,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gy.upms.entity.Address">
+    update address
+    set name_cn = #{nameCn,jdbcType=VARCHAR},
+      name_en = #{nameEn,jdbcType=VARCHAR},
+      parent_code = #{parentCode,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      abbreviation_cn = #{abbreviationCn,jdbcType=VARCHAR},
+      abbreviation_en = #{abbreviationEn,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=INTEGER},
+      creater = #{creater,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where code = #{code,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,8 @@
+1、maven 打包命令
+   mvn clean package
+2、maven 打包命令打包并跳过测试
+   mvn clean package -Dmaven.test.skip=true
+3、运行命令 (linux 加&后台运行)
+  java -jar E:\授权设计\upms\upms-core\target\upms-core-1.0-SNAPSHOT.jar
+4、修改配置文件 执行应该进入jar存放目录
+  jar同级路径下增加/config目录 该目录下存放配置文件。例如E:\授权设计\upms\upms-core\target>java -jar upms-core-1.0-SNAPSHOT.jar

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gy.upms.dao.UserLoginMapper">
+  <resultMap id="BaseResultMap" type="com.gy.upms.entity.UserLogin">
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="token" jdbcType="CHAR" property="token" />
+    <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
+    <result column="exp_dur" jdbcType="INTEGER" property="expDur" />
+  </resultMap>
+  <insert id="insert" parameterType="com.gy.upms.entity.UserLogin">
+    <selectKey order="BEFORE" keyColumn="token" keyProperty="token" resultType="String">
+        select  UUID()
+    </selectKey>
+    insert into user_login (user_id, token, login_time, 
+      exp_dur)
+    values (#{userId,jdbcType=INTEGER} ,#{token}, #{loginTime,jdbcType=TIMESTAMP},
+      #{expDur,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gy.upms.entity.UserLogin">
+    insert into user_login
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="token != null">
+        token,
+      </if>
+      <if test="loginTime != null">
+        login_time,
+      </if>
+      <if test="expDur != null">
+        exp_dur,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="token != null">
+        #{token,jdbcType=CHAR},
+      </if>
+      <if test="loginTime != null">
+        #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expDur != null">
+        #{expDur,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.gy.upms.entity.UserLogin">
+    <selectKey order="BEFORE" keyColumn="token" keyProperty="token" resultType="String">
+      select  UUID()
+    </selectKey>
+    insert into user_login (user_id, token, login_time,
+    exp_dur)
+    values (#{userId,jdbcType=INTEGER} ,#{token}, #{loginTime,jdbcType=TIMESTAMP},
+    #{expDur,jdbcType=INTEGER})
+    ON DUPLICATE KEY UPDATE
+    token=values(token),login_time=values(login_time)
+  </insert>
+  <select id="selectLogin" resultType="com.gy.upms.entity.UserLoginInfo">
+  SELECT
+	A.user_id AS id,
+	A.token AS token,
+	B.username AS username,
+	B.nickname AS nickname,
+	B.phone AS phone,
+	B.email AS email,
+	B.org_id AS orgId,
+	B.jobtitle_id AS jobtitleId,
+    B.usertype AS usertype,
+    B.comeform AS comeform,
+    A.login_time AS loginTime
+   FROM
+	user_login A
+   LEFT JOIN user_account B ON A.user_id = B.id
+   WHERE
+	user_id = #{userId}
+   AND DATE_ADD(login_time,INTERVAL exp_dur DAY) > #{nowTime}
+  </select>
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gy.upms.dao.CommonMapper">
+    <resultMap id="Rows" type="com.gy.upms.entity.Rows">
+        <result property="totalRows"  javaType="java.lang.Long"  column="totalRows"  jdbcType="BIGINT" ></result>
+        <result property="pageSize"  javaType="java.lang.Integer"  column="pageSize"  jdbcType="INTEGER" ></result>
+    </resultMap>
+    <sql id="pageSelectColumn">
+        SQL_NO_CACHE  SQL_CALC_FOUND_ROWS
+    </sql>
+    <sql id="pageSelectRows">
+        select FOUND_ROWS() as totalRows,${rows} as pageSize;
+    </sql>
+</mapper>

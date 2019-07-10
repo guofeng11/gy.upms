@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<parent>
+    <artifactId>upms</artifactId>
+    <groupId>com.gy.upms</groupId>
+    <version>1.0-SNAPSHOT</version>
+</parent>
+<modelVersion>4.0.0</modelVersion>
+
+<artifactId>upms-core</artifactId>
+<properties>
+    <upms.services.version>1.0-SNAPSHOT</upms.services.version>
+    <commons.version>1.0-SNAPSHOT</commons.version>
+</properties>
+
+<dependencies>
+    <dependency>
+        <groupId>com.gy.upms</groupId>
+        <artifactId>upms-services</artifactId>
+        <version>${upms.services.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>com.gy.commons</groupId>
+        <artifactId>commons</artifactId>
+        <version>${commons.version}</version>
+    </dependency>
+    <!-- spring -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-json</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-redis</artifactId>
+    </dependency>
+    <!--mybatis-->
+    <dependency>
+        <groupId>org.mybatis.spring.boot</groupId>
+        <artifactId>mybatis-spring-boot-starter</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+
+    <!-- Aapche Dubbo  -->
+    <dependency>
+        <groupId>org.apache.dubbo</groupId>
+        <artifactId>dubbo-spring-boot-starter</artifactId>
+        <version>${dubbo.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.dubbo</groupId>
+        <artifactId>dubbo</artifactId>
+    </dependency>
+    <!-- 高版本redis的lettuce需要commons-pool2 -->
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-pool2</artifactId>
+    </dependency>
+    <!--    日志-->
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+    </dependency>
+    <!--    测试-->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <scope>test</scope>
+    </dependency>
+    <!--热部署-->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-devtools</artifactId>
+        <optional>true</optional>
+    </dependency>
+    <!--    cache-->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-cache</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.ehcache</groupId>
+        <artifactId>ehcache</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>javax.cache</groupId>
+        <artifactId>cache-api</artifactId>
+    </dependency>
+</dependencies>
+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>${spring.springframework.boot.version}</version>
+            <!--unix完全可执行的jar 用于自定义脚本启动-->
+<!--            <configuration>-->
+<!--                <executable>true</executable>-->
+<!--            </configuration>-->
+            <!--            直接执行java -jar -->
+            <executions>
+                <execution>
+                    <goals>
+
+                        <goal>repackage</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+
+</project>
