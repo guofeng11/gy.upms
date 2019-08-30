@@ -10,19 +10,16 @@ import com.gy.upms.entity.AppAndAuthInfo;
 import com.gy.upms.entity.AppAuthInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.*;
 import javax.servlet.FilterConfig;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * @Auther: guofeng
@@ -47,46 +44,47 @@ public class ServerAuthenticationFilter implements Filter {
             HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
             HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 
+            String requestUrl = httpRequest.getRequestURI().toLowerCase();
 
-            if(httpRequest.getRequestURI().equals("/favicon.ico")
-            ||httpRequest.getRequestURI().equals("/")){
+            if (requestUrl.equals("/favicon.ico") || requestUrl.equals("/")) {
                 filterChain.doFilter(servletRequest, servletResponse);
                 return;
             }
             // 获取服务器token
-            String authorizationToken = httpRequest.getHeader("Authorization");
+            String authorizationToken = httpRequest.getHeader("Authorization").toLowerCase();
 
             if (authorizationToken == null || authorizationToken.isEmpty()) {
-                sendError(httpResponse,HttpServletResponse.SC_UNAUTHORIZED,messageUtils.getMessage("BASE.NOAUTHORIZATION"));
+                sendError(httpResponse, HttpServletResponse.SC_UNAUTHORIZED, messageUtils.getMessage("BASE.NOAUTHORIZATION"));
                 return;
             }
 
-            log.debug("应用授权：{0}",authorizationToken);
+            log.debug("应用授权：{}", authorizationToken);
             // 验证
-            AppAndAuthInfo appAuthInfos =VerifyUtils.getAppAuth(ApplicationProperties.getAppToken());
-            if (appAuthInfos==null){
-                sendError(httpResponse,HttpServletResponse.SC_UNAUTHORIZED,messageUtils.getMessage("BASE.NOAUTHORIZATION"));
+            AppAndAuthInfo appAuthInfos = VerifyUtils.getAppAuth(ApplicationProperties.getAppToken());
+            if (appAuthInfos == null) {
+                sendError(httpResponse, HttpServletResponse.SC_UNAUTHORIZED, messageUtils.getMessage("BASE.NOAUTHORIZATION"));
                 return;
-            }
-            else {
-                List<AppAuthInfo> authInfos=appAuthInfos.getAuthInfos();
-                boolean authTrue= authInfos.stream().anyMatch(c->c.getAppToken().toLowerCase().equals(authorizationToken));
-                if (!authTrue){
-                    sendError(httpResponse,HttpServletResponse.SC_UNAUTHORIZED,messageUtils.getMessage("BASE.NOAUTHORIZATION"));
-                    log.debug("应用没有授权：{0}",authorizationToken);
+            } else {
+                List<AppAuthInfo> authInfos = appAuthInfos.getAuthInfos();
+                boolean authTrue = authInfos.stream().anyMatch(c -> c.getAppToken().toLowerCase().equals(authorizationToken));
+                if (!authTrue) {
+                    sendError(httpResponse, HttpServletResponse.SC_UNAUTHORIZED, messageUtils.getMessage("BASE.NOAUTHORIZATION"));
+                    log.debug("应用没有授权：{}", authorizationToken);
+                    return;
+                }
+                //判断API权限
+                boolean authPermTrue = authInfos.stream().anyMatch(c ->c.getPermUrl()!=null && c.getPermUrl().toLowerCase().startsWith(requestUrl));
+                if (!ApplicationProperties.getSetPermDefault() && !authPermTrue) {
+                    sendError(httpResponse, HttpServletResponse.SC_UNAUTHORIZED, messageUtils.getMessage("BASE.NOAUTHORIZATION"));
+                    log.debug("应用API没有授权：{}", authorizationToken);
                     return;
                 }
             }
             //post 封装流
-//            if (httpRequest.getMethod().equals("POST")){
-                // 防止流读取一次后就没有了, 所以需要将流继续写出去
-                HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-                ServletRequest requestWrapper = new BodyReaderHttpServletRequestWrapper(httpServletRequest);
-                filterChain.doFilter(requestWrapper, servletResponse);
-//            }
-//            else {
-//                filterChain.doFilter(servletRequest, servletResponse);
-//            }
+            // 防止流读取一次后就没有了, 所以需要将流继续写出去
+            HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+            ServletRequest requestWrapper = new BodyReaderHttpServletRequestWrapper(httpServletRequest);
+            filterChain.doFilter(requestWrapper, servletResponse);
 
 
         }

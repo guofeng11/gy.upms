@@ -7,6 +7,7 @@ import com.gy.upms.dao.UserOrgMapper;
 import com.gy.upms.entity.*;
 import com.gy.upms.redis.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 
@@ -30,10 +31,6 @@ public class VerifyUtils {
     private static final String CACHE_APPS="apps";
     //用户相关 Jcache 缓存
     private static final String CACHE_USERS="users";
-    //登录过期时间 30D
-    private static final int LOGINEXPDUR=30;
-    //应用授权过期时间 1D
-    private static final int APPEXPDUR=1;
     //用户缓存key前缀
     private static  final String KEYUSER_PREFIX="user_";
     //应用缓存key前缀
@@ -44,6 +41,24 @@ public class VerifyUtils {
     private static  final String KEYUSER_PERM_PREFIX="user_perm_";
     //用户组织key前缀
     private static  final String KEYUSER_ORG_PREFIX="user_org_";
+
+    //登录过期时间 30D
+    private static  Integer LOGINEXPDUR=30;
+    @Value("${redis.exp.dur.app}")
+    public  void setLOGINEXPDUR(Integer LOGINEXPDUR) {
+        if (LOGINEXPDUR!=null && LOGINEXPDUR>0) {
+            VerifyUtils.LOGINEXPDUR = LOGINEXPDUR;
+        }
+    }
+
+    //应用授权过期时间 1D
+    private static  Integer APPEXPDUR=1;
+    @Value("${redis.exp.dur.user}")
+    public  void setAPPEXPDUR(Integer APPEXPDUR) {
+        if (APPEXPDUR!=null && APPEXPDUR>0) {
+            VerifyUtils.APPEXPDUR = APPEXPDUR;
+        }
+    }
 
     private static UserLoginMapper userLoginMapper;
     @Autowired
@@ -171,7 +186,6 @@ public class VerifyUtils {
         }
         return  appAuthInfo;
     }
-
 
     /**
      * 获取应用程序权限

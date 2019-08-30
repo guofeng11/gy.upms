@@ -55,6 +55,17 @@ public class UserOrg implements Serializable {
         this.isWrite = isWrite;
     }
 
+    public UserOrg() {
+    }
+
+    public UserOrg(String id, Integer userId, Integer orgId, Integer isRead, Integer isWrite) {
+        this.id=id;
+        this.userId = userId;
+        this.orgId = orgId;
+        this.isRead = isRead;
+        this.isWrite = isWrite;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

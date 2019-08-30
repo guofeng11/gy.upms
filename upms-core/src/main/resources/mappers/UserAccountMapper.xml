@@ -260,13 +260,13 @@
                         AND userlevel=#{record.userlevel },
                     </if>
                     <if test="record.orgId != null">
-                        AND orgId=#{record.orgId }
+                        AND org_id=#{record.orgId }
                     </if>
                     <if test="record.jobtitleId != null">
-                        AND jobtitleId=#{record.jobtitleId }
+                        AND jobtitle_id=#{record.jobtitleId }
                     </if>
                     <if test="record.createtime != null">
-                        AND createtime=#{record.createtime }
+                        AND create_time=#{record.createtime }
                     </if>
                     <if test="record.creater != null">
                         AND creater=#{record.creater }
@@ -278,4 +278,14 @@
         LIMIT #{offset},#{rows};
         <include refid="com.gy.upms.dao.CommonMapper.pageSelectRows"></include>
     </select>
+    <delete id="bulkDelete" parameterType="java.util.List">
+        delete from user_account
+        where 1=2
+        <if test="ids!=null and ids.size()>0">
+            or id in
+            <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
 </mapper>

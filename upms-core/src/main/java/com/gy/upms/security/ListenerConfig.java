@@ -5,7 +5,7 @@ import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
 /**
- * @Auther: guofeng
+ * @Author: guofeng
  * @Date: 2019/5/28 15:17
  * @Description:
  */

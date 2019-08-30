@@ -4,7 +4,6 @@ import com.gy.upms.entity.Pageing;
 import com.gy.upms.entity.UserAccount;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -43,4 +42,5 @@ public interface UserAccountMapper {
      * @return
      */
     int countUser(@Param("username")String userName,@Param("phone")String phone,@Param("email")String email);
+    int bulkDelete(@Param("ids") List<Integer> ids);
 }

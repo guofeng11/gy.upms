@@ -2,10 +2,10 @@ package com.gy.upms.security;
 
 import com.gy.upms.ApplicationProperties;
 import com.gy.upms.component.JacksonUtils;
+import com.gy.upms.component.MessageUtils;
 import com.gy.upms.component.VerifyUtils;
 import com.gy.upms.dto.ResultMessage;
 import com.gy.upms.dto.TrueFalse;
-import com.gy.upms.entity.AppAndAuthInfo;
 import com.gy.upms.entity.Permission;
 import com.gy.upms.entity.UserLoginInfo;
 import org.slf4j.Logger;
@@ -14,14 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.gy.upms.component.MessageUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.regex.Pattern;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * @Auther: guofeng
@@ -48,11 +48,7 @@ public class UserAuthenticationInterceptor extends HandlerInterceptorAdapter {
 
             List<Permission> appPerms = VerifyUtils.getAppPerm(ApplicationProperties.getAppToken());
             Optional<Permission> optionalPermission = appPerms.stream().filter(c -> c.getPermUrl().toLowerCase().equals(url)).findAny();
-//            Pattern regex=Pattern.compile(regexStr);
-//            if(regex.matcher(url).matches()){
-//                //无需token 跳出
-//                return  true;
-//            }
+
             //权限中不存在访问的url 默认允许访问
             if (!optionalPermission.isPresent()) {
                 if (ApplicationProperties.getSetPermDefault() ){

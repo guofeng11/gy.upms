@@ -20,8 +20,7 @@ public class AppAuthRunner implements ApplicationRunner {
 
     private static final Logger log= LoggerFactory.getLogger(AppAuthRunner.class);
 
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         log.debug("启动后执行");
         //启动加载授权信息
         AppAndAuthInfo appAuthInfos =VerifyUtils.getAppAuth(ApplicationProperties.getAppToken());

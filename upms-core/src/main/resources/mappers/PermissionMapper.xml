@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gy.upms.dao.PermissionMapper">
   <resultMap id="BaseResultMap" type="com.gy.upms.entity.Permission">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="INTEGER" property="userId" />
     <result column="app_id" jdbcType="INTEGER" property="appId" />
     <result column="perm_key" jdbcType="VARCHAR" property="permKey" />
     <result column="perm_name_cn" jdbcType="VARCHAR" property="permNameCn" />
@@ -22,7 +22,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, app_id, perm_key, perm_name_cn, perm_name_en, status, sort_order, level, parent_id, 
+    userId, app_id, perm_key, perm_name_cn, perm_name_en, status, sort_order, level, parent_id,
     perm_url, is_navigation, http_method, is_login, ico, remark, creater_id, creater, 
     create_time
   </sql>
@@ -30,21 +30,21 @@
     select 
     <include refid="Base_Column_List" />
     from permission
-    where id = #{id,jdbcType=INTEGER}
+    where userId = #{userId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from permission
-    where id = #{id,jdbcType=INTEGER}
+    where userId = #{userId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.gy.upms.entity.Permission">
-    insert into permission (id, app_id, perm_key, 
+    insert into permission (userId, app_id, perm_key,
       perm_name_cn, perm_name_en, status, 
       sort_order, level, parent_id, 
       perm_url, is_navigation, http_method, 
       is_login, ico, remark, 
       creater_id, creater, create_time
       )
-    values (#{id,jdbcType=INTEGER}, #{appId,jdbcType=INTEGER}, #{permKey,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=INTEGER}, #{appId,jdbcType=INTEGER}, #{permKey,jdbcType=VARCHAR},
       #{permNameCn,jdbcType=VARCHAR}, #{permNameEn,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{sortOrder,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, 
       #{permUrl,jdbcType=VARCHAR}, #{isNavigation,jdbcType=INTEGER}, #{httpMethod,jdbcType=VARCHAR}, 
@@ -55,8 +55,8 @@
   <insert id="insertSelective" parameterType="com.gy.upms.entity.Permission">
     insert into permission
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="userId != null">
+        userId,
       </if>
       <if test="appId != null">
         app_id,
@@ -111,8 +111,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="appId != null">
         #{appId,jdbcType=INTEGER},
@@ -222,7 +222,7 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where userId = #{userId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.gy.upms.entity.Permission">
     update permission
@@ -243,7 +243,7 @@
       creater_id = #{createrId,jdbcType=INTEGER},
       creater = #{creater,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
+    where userId = #{userId,jdbcType=INTEGER}
   </update>
   <select id="selectByUserIdAndAppId" resultMap="BaseResultMap">
     select
@@ -263,7 +263,7 @@
         FROM
         role
         WHERE
-        role.id = role_perm.role_id
+        role.userId = role_perm.role_id
         AND role.status = 1
         AND EXISTS (
         SELECT
@@ -271,11 +271,11 @@
         FROM
         user_role
         WHERE
-        user_role.role_id = role.id
+        user_role.role_id = role.userId
         AND user_role.user_id = #{userId}
         )
         )
-        )role_perm.perm_id=permission.id
+        )role_perm.perm_id=permission.userId
       </if>
       <if test="#appId !=null">
       and app_id=#{appId}
@@ -288,7 +288,7 @@
     where
       permission.status=1
       and  exists (
-        select 1 from application where status=1 and app_token = #{token} and permission.app_id=application.id
+        select 1 from application where status=1 and app_token = #{token} and permission.app_id=application.userId
     )
   </select>
 </mapper>

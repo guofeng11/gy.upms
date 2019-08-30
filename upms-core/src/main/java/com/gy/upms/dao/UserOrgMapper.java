@@ -28,4 +28,9 @@ public interface UserOrgMapper {
      * @return
      */
     List<UserOrg> selectByUserId(@Param("userId") Integer useId);
+    List<UserOrg> selectByOrgId(@Param("orgId") Integer orgId);
+    int delete(@Param("orgId")Integer orgId,@Param("userId")Integer userId);
+    int bulkDelete(@Param("ids") List<String> ids);
+    int bulkInsert(@Param("records") List<UserOrg> records);
+    int bulkUpdate(@Param("records") List<UserOrg> records);
 }

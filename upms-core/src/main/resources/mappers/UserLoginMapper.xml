@@ -60,7 +60,7 @@
   </insert>
   <select id="selectLogin" resultType="com.gy.upms.entity.UserLoginInfo">
   SELECT
-	A.user_id AS id,
+	A.user_id AS userId,
 	A.token AS token,
 	B.username AS username,
 	B.nickname AS nickname,
@@ -73,7 +73,7 @@
     A.login_time AS loginTime
    FROM
 	user_login A
-   LEFT JOIN user_account B ON A.user_id = B.id
+   LEFT JOIN user_account B ON A.user_id = B.userId
    WHERE
 	user_id = #{userId}
    AND DATE_ADD(login_time,INTERVAL exp_dur DAY) > #{nowTime}

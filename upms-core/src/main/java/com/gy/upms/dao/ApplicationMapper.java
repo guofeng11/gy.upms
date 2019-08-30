@@ -3,6 +3,7 @@ package com.gy.upms.dao;
 import com.gy.upms.entity.AppAndAuthInfo;
 import com.gy.upms.entity.AppAuthInfo;
 import com.gy.upms.entity.Application;
+import com.gy.upms.entity.Pageing;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -25,7 +26,7 @@ public interface ApplicationMapper {
     int updateByPrimaryKey(Application record);
 
     /**
-     * 根据app id 获取收取应用的信息
+     * 根据app id 获取 授权应用的信息
      * @param id 应用程序编号
      * @return 返回状态正常的应用
      */
@@ -36,4 +37,12 @@ public interface ApplicationMapper {
      * @return 返回状态正常的应用
      */
     AppAndAuthInfo selectByToken(@Param("token") String token);
+    /**
+     *
+     * @param record
+     * @param offset 跳过行数 (currentPage-1)*pageSize
+     * @param rows 行数
+     * @return
+     */
+    Pageing<Application> selectByPage(@Param("record")Application record, @Param("offset")int offset, @Param("rows")int rows);
 }

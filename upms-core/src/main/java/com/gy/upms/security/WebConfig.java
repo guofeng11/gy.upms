@@ -27,8 +27,8 @@ public class WebConfig implements WebMvcConfigurer {
 
         registry.addMapping("/**")
                 .allowedOrigins("*")
-                .allowedMethods("PUT", "DELETE","GET","POST")
-                .allowedHeaders("Authorization", "Content-Type", "Accept")
+                .allowedMethods("OPTIONS","PUT", "DELETE","GET","POST")
+                .allowedHeaders("authorization", "content-type", "Accept")
                // .exposedHeaders("header1", "header2") 不允许的header
                 .allowCredentials(true)
                 .maxAge(86400);//缓存时间秒

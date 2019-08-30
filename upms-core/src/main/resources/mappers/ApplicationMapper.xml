@@ -19,6 +19,7 @@
       <result column="app_name_en" jdbcType="VARCHAR" property="appNameEn" />
       <result column="app_token" jdbcType="VARCHAR" property="appToken" />
       <result column="ipv4" jdbcType="VARCHAR" property="ipv4" />
+      <result column="perm_url" jdbcType="VARCHAR" property="permUrl" />
   </resultMap>
   <resultMap id="AppAndAuthResultMap" type="com.gy.upms.entity.AppAndAuthInfo">
     <association property="appInfo" resultMap="AppAuthResultMap"></association>
@@ -38,12 +39,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.gy.upms.entity.Application">
-    insert into application (id, app_name, app_name_en, 
-      app_token, status, remark, 
+    insert into application (id, app_name, app_name_en,
+      app_token, status, ipv4, remark,
       creater_id, creater, create_time
       )
-    values (#{id,jdbcType=INTEGER}, #{appName,jdbcType=VARCHAR}, #{appNameEn,jdbcType=VARCHAR}, 
-      #{appToken,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{appName,jdbcType=VARCHAR}, #{appNameEn,jdbcType=VARCHAR},
+      #{appToken,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{ipv4,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},
       #{createrId,jdbcType=INTEGER}, #{creater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -151,24 +152,19 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectAuthById" parameterType="java.lang.Integer" resultMap="AppAuthResultMap">
-      SELECT
+           SELECT
           A.id AS id,
           A.app_name,
           A.app_name_en,
           A.app_token,
-          A.ipv4
+          A.ipv4,
+          P.perm_url
       FROM
           application A
+          left join app_authorized AU on A.id=AU.auth_app_id
+          left join permission P on AU.perm_id=P.perm_url
       WHERE
-          EXISTS (
-              SELECT
-                  *
-              FROM
-                  app_authorized AU
-              WHERE
-                  AU.app_id = 1
-              AND A.id = AU.auth_app_id
-          )
+       AU.app_id = #{id}
       AND A.`status` = 1
   </select>
   <select id="selectByToken" parameterType="java.lang.String" resultMap="AppAndAuthResultMap">
@@ -181,5 +177,43 @@
     FROM
 	    application A
     WHERE A.app_token = #{token} AND A.`status` = 1
+  </select>
+  <select id="selectByPage"   resultMap="BaseResultMap,Rows">
+    select
+    <include refid="com.gy.upms.dao.CommonMapper.pageSelectColumn"></include>
+    <include refid="Base_Column_List" />
+    from application
+    <where>
+      <choose>
+        <when test="record.id != null">
+          id=#{record.id }
+        </when>
+        <otherwise>
+          <if test="record.appName != null ">
+            <bind name="appName" value="record.appName + '%'"/>
+            (app_name like #{appName } or app_name_en like #{appName })
+          </if>
+          <if test="record.appNameEn !=null">
+            <bind name="appNameEn" value="record.appNameEn + '%'"/>
+            and (app_name like #{appNameEn } or app_name_en like #{appNameEn })
+          </if>
+          <if test="record.status !=null and record.status!=-1">
+            AND status=#{record.status }
+          </if>
+          <if test="record.ipv4 !=null">
+            AND ipv4=#{record.ipv4 }
+          </if>
+          <if test="record.createtime != null">
+            AND create_time=#{record.createtime }
+          </if>
+          <if test="record.creater != null">
+            AND creater=#{record.creater }
+          </if>
+        </otherwise>
+      </choose>
+    </where>
+    order by id asc
+    LIMIT #{offset},#{rows};
+    <include refid="com.gy.upms.dao.CommonMapper.pageSelectRows"></include>
   </select>
 </mapper>

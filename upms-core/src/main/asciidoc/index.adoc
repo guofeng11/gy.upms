@@ -1,0 +1,18 @@
+= 权限中心 API 文档
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:numbered:
+
+== 应用中心API
+== 用户API
+[[register]]
+=== 用户register接口（/user/register）
+operation::user/register[snippets='http-request,http-response,request-headers,request-fields,response-fields,response-fields-beneath-data']
+[[login]]
+=== 用户登录(user/login)
+operation::user/login[snippets='http-request,http-response,path-parameters,request-headers,request-fields,response-fields,response-fields-beneath-data']
+

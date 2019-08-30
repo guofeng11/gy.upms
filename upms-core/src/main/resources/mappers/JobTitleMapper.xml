@@ -7,7 +7,7 @@
     <result column="job_title_en" jdbcType="VARCHAR" property="jobTitleEn" />
     <result column="level" jdbcType="INTEGER" property="level" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="create_id" jdbcType="INTEGER" property="createId" />
+    <result column="create_id" jdbcType="INTEGER" property="createrId" />
     <result column="creater" jdbcType="VARCHAR" property="creater" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
@@ -25,11 +25,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.gy.upms.entity.JobTitle">
-    insert into job_title (id, job_title, job_title_en, 
+    insert into job_title (id, job_title, job_title_en,
       level, remark, create_id, 
       creater, create_time)
-    values (#{id,jdbcType=INTEGER}, #{jobTitle,jdbcType=VARCHAR}, #{jobTitleEn,jdbcType=VARCHAR}, 
-      #{level,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{jobTitle,jdbcType=VARCHAR}, #{jobTitleEn,jdbcType=VARCHAR},
+      #{level,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=INTEGER},
       #{creater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.gy.upms.entity.JobTitle">
@@ -50,7 +50,7 @@
       <if test="remark != null">
         remark,
       </if>
-      <if test="createId != null">
+      <if test="createrId != null">
         create_id,
       </if>
       <if test="creater != null">
@@ -76,8 +76,8 @@
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="createId != null">
-        #{createId,jdbcType=INTEGER},
+      <if test="createrId != null">
+        #{createrId,jdbcType=INTEGER},
       </if>
       <if test="creater != null">
         #{creater,jdbcType=VARCHAR},
@@ -102,8 +102,8 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="createId != null">
-        create_id = #{createId,jdbcType=INTEGER},
+      <if test="createrId != null">
+        create_id = #{createrId,jdbcType=INTEGER},
       </if>
       <if test="creater != null">
         creater = #{creater,jdbcType=VARCHAR},
@@ -120,7 +120,7 @@
       job_title_en = #{jobTitleEn,jdbcType=VARCHAR},
       level = #{level,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
-      create_id = #{createId,jdbcType=INTEGER},
+      create_id = #{createrId,jdbcType=INTEGER},
       creater = #{creater,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

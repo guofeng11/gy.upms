@@ -33,11 +33,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.gy.upms.entity.Role">
-    insert into role (id, role_name, role_name_en, 
+    insert into role (id, role_name, role_name_en,
       sort_order, status, remark, 
       creater_id, create_time, creater
       )
-    values (#{id,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{roleNameEn,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{roleNameEn,jdbcType=VARCHAR},
       #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
       #{createrId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{creater,jdbcType=LONGVARCHAR}
       )

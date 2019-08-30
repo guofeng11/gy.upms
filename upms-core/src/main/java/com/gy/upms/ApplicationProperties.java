@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * @Auther: guofeng
  * @Date: 2019/6/17 16:34
- * @Description: 获取配置文件值
+ * @Description: &#x83b7;&#x53d6;&#x914d;&#x7f6e;&#x6587;&#x4ef6;&#x503c;
  */
 @Component
 public class ApplicationProperties {
@@ -16,9 +16,6 @@ public class ApplicationProperties {
     private static String appToken;
 
     private static Boolean setPermDefault;
-
-
-
 
 
     @Value("${spring.application.name}")
@@ -34,6 +31,10 @@ public class ApplicationProperties {
         ApplicationProperties.setPermDefault = setPermDefault;
     }
 
+    /**
+     * 配置权限默认是否允许访问 true 允许
+     * @return
+     */
     public static Boolean getSetPermDefault() {
         return setPermDefault;
     }

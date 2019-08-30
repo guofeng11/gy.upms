@@ -1,6 +1,7 @@
 package com.gy.upms.entity;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class AppAuthorized implements Serializable {
     private String id;
@@ -9,6 +10,8 @@ public class AppAuthorized implements Serializable {
 
     private Integer authAppId;
 
+    private Integer permId;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -16,7 +19,7 @@ public class AppAuthorized implements Serializable {
     }
 
     public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+        this.id = id == null ? UUID.randomUUID().toString() : id.trim();
     }
 
     public Integer getAppId() {
@@ -35,6 +38,23 @@ public class AppAuthorized implements Serializable {
         this.authAppId = authAppId;
     }
 
+    public Integer getPermId() {
+        return permId;
+    }
+
+    public void setPermId(Integer permId) {
+        this.permId = permId;
+    }
+
+    public AppAuthorized() {
+    }
+
+    public AppAuthorized(Integer appId, Integer authAppId, Integer permId) {
+        this.appId = appId;
+        this.authAppId = authAppId;
+        this.permId = permId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -44,6 +64,7 @@ public class AppAuthorized implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", appId=").append(appId);
         sb.append(", authAppId=").append(authAppId);
+        sb.append(", permId=").append(permId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

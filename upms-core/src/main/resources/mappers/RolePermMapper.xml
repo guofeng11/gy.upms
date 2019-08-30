@@ -3,11 +3,11 @@
 <mapper namespace="com.gy.upms.dao.RolePermMapper">
   <resultMap id="BaseResultMap" type="com.gy.upms.entity.RolePerm">
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
-    <result column="perm_id" jdbcType="INTEGER" property="permId" />
+    <result column="perm_id" jdbcType="INTEGER" property="permIds" />
   </resultMap>
   <insert id="insert" parameterType="com.gy.upms.entity.RolePerm">
     insert into role_perm (role_id, perm_id)
-    values (#{roleId,jdbcType=INTEGER}, #{permId,jdbcType=INTEGER})
+    values (#{roleId,jdbcType=INTEGER}, #{permIds,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.gy.upms.entity.RolePerm">
     insert into role_perm
@@ -15,7 +15,7 @@
       <if test="roleId != null">
         role_id,
       </if>
-      <if test="permId != null">
+      <if test="permIds != null">
         perm_id,
       </if>
     </trim>
@@ -23,8 +23,8 @@
       <if test="roleId != null">
         #{roleId,jdbcType=INTEGER},
       </if>
-      <if test="permId != null">
-        #{permId,jdbcType=INTEGER},
+      <if test="permIds != null">
+        #{permIds,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>

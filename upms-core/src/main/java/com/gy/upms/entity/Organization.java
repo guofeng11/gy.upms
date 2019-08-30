@@ -2,7 +2,6 @@ package com.gy.upms.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Organization implements Serializable {
     private Integer orgId;
@@ -23,7 +22,7 @@ public class Organization implements Serializable {
 
     private Integer parentId;
 
-    private Integer createId;
+    private Integer createrId;
 
     private String creater;
 
@@ -105,12 +104,12 @@ public class Organization implements Serializable {
         this.parentId = parentId;
     }
 
-    public Integer getCreateId() {
-        return createId;
+    public Integer getCreaterId() {
+        return createrId;
     }
 
-    public void setCreateId(Integer createId) {
-        this.createId = createId;
+    public void setCreaterId(Integer createrId) {
+        this.createrId = createrId;
     }
 
     public String getCreater() {
@@ -152,7 +151,7 @@ public class Organization implements Serializable {
         sb.append(", abbrNameEn=").append(abbrNameEn);
         sb.append(", level=").append(level);
         sb.append(", parentId=").append(parentId);
-        sb.append(", createId=").append(createId);
+        sb.append(", createrId=").append(createrId);
         sb.append(", creater=").append(creater);
         sb.append(", createTime=").append(createTime);
         sb.append(", remark=").append(remark);

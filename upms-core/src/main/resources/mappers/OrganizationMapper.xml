@@ -11,7 +11,7 @@
     <result column="abbr_name_en" jdbcType="VARCHAR" property="abbrNameEn" />
     <result column="level" jdbcType="INTEGER" property="level" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
-    <result column="create_id" jdbcType="INTEGER" property="createId" />
+    <result column="creater_id" jdbcType="INTEGER" property="createrId" />
     <result column="creater" jdbcType="VARCHAR" property="creater" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
@@ -20,7 +20,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     org_id, org_code, org_name_cn, org_name_en, abbr_name_cn, org_type, abbr_name_en, 
-    level, parent_id, create_id, creater, create_time
+    level, parent_id, creater_id, creater, create_time
   </sql>
   <sql id="Blob_Column_List">
     remark
@@ -41,12 +41,12 @@
     insert into organization (org_id, org_code, org_name_cn, 
       org_name_en, abbr_name_cn, org_type, 
       abbr_name_en, level, parent_id, 
-      create_id, creater, create_time, 
+      creater_id, creater, create_time, 
       remark)
     values (#{orgId,jdbcType=INTEGER}, #{orgCode,jdbcType=VARCHAR}, #{orgNameCn,jdbcType=VARCHAR}, 
       #{orgNameEn,jdbcType=VARCHAR}, #{abbrNameCn,jdbcType=VARCHAR}, #{orgType,jdbcType=VARCHAR}, 
       #{abbrNameEn,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, 
-      #{createId,jdbcType=INTEGER}, #{creater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createrId,jdbcType=INTEGER}, #{creater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
       #{remark,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.gy.upms.entity.Organization">
@@ -79,8 +79,8 @@
       <if test="parentId != null">
         parent_id,
       </if>
-      <if test="createId != null">
-        create_id,
+      <if test="createrId != null">
+        creater_id,
       </if>
       <if test="creater != null">
         creater,
@@ -120,8 +120,8 @@
       <if test="parentId != null">
         #{parentId,jdbcType=INTEGER},
       </if>
-      <if test="createId != null">
-        #{createId,jdbcType=INTEGER},
+      <if test="createrId != null">
+        #{createrId,jdbcType=INTEGER},
       </if>
       <if test="creater != null">
         #{creater,jdbcType=VARCHAR},
@@ -161,8 +161,8 @@
       <if test="parentId != null">
         parent_id = #{parentId,jdbcType=INTEGER},
       </if>
-      <if test="createId != null">
-        create_id = #{createId,jdbcType=INTEGER},
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=INTEGER},
       </if>
       <if test="creater != null">
         creater = #{creater,jdbcType=VARCHAR},
@@ -186,7 +186,7 @@
       abbr_name_en = #{abbrNameEn,jdbcType=VARCHAR},
       level = #{level,jdbcType=INTEGER},
       parent_id = #{parentId,jdbcType=INTEGER},
-      create_id = #{createId,jdbcType=INTEGER},
+      creater_id = #{createrId,jdbcType=INTEGER},
       creater = #{creater,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=LONGVARCHAR}
@@ -202,9 +202,119 @@
       abbr_name_en = #{abbrNameEn,jdbcType=VARCHAR},
       level = #{level,jdbcType=INTEGER},
       parent_id = #{parentId,jdbcType=INTEGER},
-      create_id = #{createId,jdbcType=INTEGER},
+      creater_id = #{createrId,jdbcType=INTEGER},
       creater = #{creater,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where org_id = #{orgId,jdbcType=INTEGER}
   </update>
+  <select id="select" parameterType="com.gy.upms.entity.Organization" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from organization
+    <where>
+      <choose>
+        <when test="orgId !=null">
+          org_id = #{orgId,jdbcType=INTEGER}
+        </when>
+        <otherwise>
+          <if test="orgCode != null">
+            org_code = #{orgCode,jdbcType=VARCHAR}
+          </if>
+          <if test="orgNameCn != null">
+            and org_name_cn = #{orgNameCn,jdbcType=VARCHAR}
+          </if>
+          <if test="orgNameEn != null">
+            and org_name_en = #{orgNameEn,jdbcType=VARCHAR}
+          </if>
+          <if test="abbrNameCn != null">
+            and  abbr_name_cn = #{abbrNameCn,jdbcType=VARCHAR}
+          </if>
+          <if test="orgType != null">
+            and org_type = #{orgType,jdbcType=VARCHAR}
+          </if>
+          <if test="abbrNameEn != null">
+            and abbr_name_en = #{abbrNameEn,jdbcType=VARCHAR}
+          </if>
+          <if test="level != null">
+            and level = #{level,jdbcType=INTEGER}
+          </if>
+          <if test="parentId != null">
+            and parent_id = #{parentId,jdbcType=INTEGER}
+          </if>
+          <if test="createrId != null">
+            and creater_id = #{createrId,jdbcType=INTEGER}
+          </if>
+          <if test="creater != null">
+            and creater = #{creater,jdbcType=VARCHAR}
+          </if>
+          <if test="createTime != null">
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+          </if>
+          <if test="remark != null">
+            and remark = #{remark,jdbcType=LONGVARCHAR}
+          </if>
+        </otherwise>
+      </choose>
+    </where>
+  </select>
+  <select id="selectByPage" resultMap="BaseResultMap,Rows">
+    select
+    <include refid="com.gy.upms.dao.CommonMapper.pageSelectColumn"></include>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from organization
+    <where>
+      <choose>
+        <when test="record.orgId !=null">
+          org_id = #{record.orgId,jdbcType=INTEGER}
+        </when>
+        <otherwise>
+          <if test="record.orgCode != null">
+            org_code = #{record.orgCode,jdbcType=VARCHAR}
+          </if>
+          <if test="record.orgNameCn != null">
+            <bind name="orgNameCn" value="record.orgNameCn + '%'"/>
+            or (org_name_cn like #{orgNameCn } or org_name_en like #{orgNameCn })
+          </if>
+          <if test="record.orgNameEn != null">
+            <bind name="orgNameEn" value="record.orgNameEn + '%'"/>
+            or (org_name_cn like #{orgNameEn } or org_name_en like #{orgNameEn })
+          </if>
+          <if test="record.abbrNameCn != null">
+            and  abbr_name_cn = #{record.abbrNameCn,jdbcType=VARCHAR}
+          </if>
+          <if test="record.orgType != null">
+            and org_type = #{record.orgType,jdbcType=VARCHAR}
+          </if>
+          <if test="record.abbrNameEn != null">
+            and abbr_name_en = #{record.abbrNameEn,jdbcType=VARCHAR}
+          </if>
+          <if test="record.level != null">
+            and level = #{record.level,jdbcType=INTEGER}
+          </if>
+          <if test="record.parentId != null">
+            and parent_id = #{record.parentId,jdbcType=INTEGER}
+          </if>
+          <if test="record.createrId != null">
+            and creater_id = #{record.createrId,jdbcType=INTEGER}
+          </if>
+          <if test="record.creater != null">
+            and creater = #{record.creater,jdbcType=VARCHAR}
+          </if>
+          <if test="record.createTime != null">
+            and create_time = #{record.createTime,jdbcType=TIMESTAMP}
+          </if>
+          <if test="record.remark != null">
+            and remark = #{record.remark,jdbcType=LONGVARCHAR}
+          </if>
+        </otherwise>
+      </choose>
+    </where>
+    order by org_id asc
+    LIMIT #{offset},#{rows};
+    <include refid="com.gy.upms.dao.CommonMapper.pageSelectRows"></include>
+  </select>
 </mapper>

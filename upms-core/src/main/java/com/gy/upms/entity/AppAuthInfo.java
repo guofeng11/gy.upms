@@ -1,7 +1,6 @@
 package com.gy.upms.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @Auther: guofeng
@@ -21,6 +20,7 @@ public class AppAuthInfo implements Serializable {
 
     private String ipv4;
 
+    private String permUrl;
 
 
     public String getIpv4() {
@@ -59,17 +59,26 @@ public class AppAuthInfo implements Serializable {
         return appToken;
     }
 
+    public String getPermUrl() {
+        return permUrl;
+    }
+
+    public void setPermUrl(String permUrl) {
+        this.permUrl = permUrl;
+    }
+
     public void setAppToken(String appToken) {
         this.appToken = appToken;
     }
 
     public AppAuthInfo(){}
-    public AppAuthInfo(Integer id, String appName, String appNameEn, String appToken, String ipv4) {
+    public AppAuthInfo(Integer id, String appName, String appNameEn, String appToken, String ipv4,String permUrl) {
         this.id = id;
         this.appName = appName;
         this.appNameEn = appNameEn;
         this.appToken = appToken;
         this.ipv4 = ipv4;
+        this.permUrl=permUrl;
     }
 
     @Override
@@ -80,6 +89,7 @@ public class AppAuthInfo implements Serializable {
                 ", appNameEn='" + appNameEn + '\'' +
                 ", appToken='" + appToken + '\'' +
                 ", ipv4='" + ipv4 + '\'' +
+                ", permUrl='" + permUrl + '\'' +
                 '}';
     }
 }
