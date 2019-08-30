@@ -29,7 +29,7 @@
 <configuration>
   
   <!-- ID of the service. It should be unique accross the Windows system-->
-  <id>upmsservice</id>
+  <userId>upmsservice</userId>
   <!-- Display name of the service -->
   <name>upms  Service (powered by WinSW)</name>
   <!-- Service description -->
