@@ -1,5 +1,6 @@
-﻿﻿CREATE TABLE `user_account` (
-	`id` INT NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+
+CREATE TABLE `user_account` (
+	`userId` INT NOT NULL AUTO_INCREMENT COMMENT '自增主键',
 	`username` VARCHAR (50) NOT NULL COMMENT '用户名',
 	`nickname` VARCHAR (10) NULL,
 	`password` VARCHAR (32) NOT NULL COMMENT '密码',
@@ -12,9 +13,9 @@
 	`org_id` INT NULL,
 	`jobtitle_id` INT NULL,
 	`createtime` datetime NOT NULL,
-	`createrid` INT NULL COMMENT '创建人编号',
+	`creater_id` INT NULL COMMENT '创建人编号',
 	`creater` VARCHAR (50) NULL,
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`userId`)
 );
 
 CREATE TABLE `user_info` (
@@ -36,20 +37,20 @@ CREATE TABLE `user_info` (
 	`area_name` VARCHAR (50) NULL,
 	`address` VARCHAR (100) NULL,
 	`zip_code` VARCHAR (10) NULL,
-	`createrid` INT NULL,
+	`creater_id` INT NULL,
 	`creater` VARCHAR (50) NULL,
 	`create_time` datetime NULL ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`user_id`)
 );
 
 CREATE TABLE `server_log` (
-	`id` CHAR (36) NOT NULL,
-	`user_id` INT NOT NULL,
+	`userId` CHAR (36) NOT NULL,
 	`gate_way` VARCHAR (100) NULL COMMENT '服务IP或服务器名',
-	`address` VARCHAR (16) NULL COMMENT '访问地址',
+	`address` VARCHAR (255) NULL COMMENT '访问地址',
 	`remote_addr` VARCHAR (100) NULL COMMENT '访问来源地址',
 	`state_time` datetime NOT NULL,
-	PRIMARY KEY (`id`)
+    `http_method` VARCHAR(8) NULL,
+	PRIMARY KEY (`userId`)
 );
 
 CREATE TABLE `address` (
@@ -60,14 +61,14 @@ CREATE TABLE `address` (
 	`level` INT NULL COMMENT '级别：0是第一级',
 	`abbreviation_cn` VARCHAR (50) NULL,
 	`abbreviation_en` VARCHAR (50) NULL,
-	`createrid` INT NULL,
+	`creater_id` INT NULL,
 	`creater` VARCHAR (50) NULL,
 	`create_time` datetime NULL ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`code`)
 );
 
 CREATE TABLE `organization` (
-	`org_id` INT NOT NULL,
+	`org_id` INT NOT NULL AUTO_INCREMENT COMMENT,
 	`org_code` VARCHAR (16) NULL COMMENT '组织代码',
 	`org_name_cn` VARCHAR (100) NULL,
 	`org_name_en` VARCHAR (200) NULL,
@@ -77,14 +78,14 @@ CREATE TABLE `organization` (
 	`level` INT NULL,
 	`parent_id` INT NULL,
 	`remark` text NULL,
-	`createid` INT NULL,
+	`creater_id` INT NULL,
 	`creater` VARCHAR (50) NULL,
 	`create_time` datetime NULL ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`org_id`)
 );
 
 CREATE TABLE `job_title` (
-	`id` INT NOT NULL,
+	`userId` INT NOT NULL,
 	`job_title` VARCHAR (50) NULL,
 	`job_title_en` VARCHAR (50) NULL,
 	`level` INT NULL DEFAULT 1,
@@ -92,11 +93,11 @@ CREATE TABLE `job_title` (
 	`create_id` INT NULL,
 	`creater` VARCHAR (50) NULL,
 	`create_time` datetime NULL ON UPDATE CURRENT_TIMESTAMP,
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`userId`)
 );
 
 CREATE TABLE `permission` (
-	`id` INT NOT NULL AUTO_INCREMENT,
+	`userId` INT NOT NULL AUTO_INCREMENT,
 	`app_id` INT NOT NULL,
 	`perm_key` VARCHAR (50) NOT NULL,
 	`perm_name_cn` VARCHAR (10) NOT NULL,
@@ -105,15 +106,20 @@ CREATE TABLE `permission` (
 	`sort_order` INT NOT NULL DEFAULT 1 COMMENT '排序',
 	`level` INT NOT NULL,
 	`parent_id` INT NOT NULL DEFAULT 0,
+	`perm_url` VARCHAR(255) NOT NULL , 
+	`is_navigation` INT NOT NULL ,
+	`http_method` VARCHAR(16) NOT NULL ,
+	`is_login` INT NOT NULL ,
+    `ico` VARCHAR(255) NOT NULL ,
 	`remark` VARCHAR (200) NULL,
 	`creater_id` INT NULL,
 	`creater` VARCHAR (50) NULL,
 	`create_time` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`userId`)
 );
 
 CREATE TABLE `role` (
-	`id` INT NOT NULL AUTO_INCREMENT,
+	`userId` INT NOT NULL AUTO_INCREMENT,
 	`role_name` VARCHAR (10) NOT NULL,
 	`role_name_en` VARCHAR (10) NOT NULL,
 	`sort_order` INT NOT NULL DEFAULT 1,
@@ -122,7 +128,7 @@ CREATE TABLE `role` (
 	`creater_id` INT NOT NULL,
 	`creater` LONGTEXT NOT NULL,
 	`create_time` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`userId`)
 );
 
 CREATE TABLE `role_perm` (
@@ -136,16 +142,17 @@ CREATE TABLE `user_role` (
 );
 
 CREATE TABLE `application` (
-	`id` INT NOT NULL AUTO_INCREMENT,
+	`userId` INT NOT NULL AUTO_INCREMENT,
 	`app_name` VARCHAR (50) NOT NULL,
 	`app_name_en` VARCHAR (100) NULL,
 	`app_token` VARCHAR (64) NOT NULL,
+    `ipv4` VARCHAR(16) NOT NULL,
 	`status` INT NOT NULL COMMENT '0-删除，1-正常，2-禁用',
 	`remark` VARCHAR (200) NULL,
 	`creater_id` INT NOT NULL,
 	`creater` VARCHAR (50) NOT NULL,
 	`create_time` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`userId`)
 );
 
 CREATE TABLE `user_login` (
@@ -157,26 +164,27 @@ CREATE TABLE `user_login` (
 );
 
 CREATE TABLE `app_authorized` (
-	`id` CHAR (36) NOT NULL,
+	`userId` CHAR (36) NOT NULL,
 	`app_id` INT NULL,
 	`auth_app_id` INT NULL,
-	PRIMARY KEY (`id`)
+    `perm_id` INT  NULL,
+	PRIMARY KEY (`userId`)
 );
 
-ALTER TABLE `user_info` ADD CONSTRAINT `fk_user_info_user_id` FOREIGN KEY (`user_id`) REFERENCES `user_account` (`id`);
+ALTER TABLE `user_info` ADD CONSTRAINT `fk_user_info_user_id` FOREIGN KEY (`user_id`) REFERENCES `user_account` (`userId`);
 
-ALTER TABLE `role_perm` ADD CONSTRAINT `fk_role_perm_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
+ALTER TABLE `role_perm` ADD CONSTRAINT `fk_role_perm_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`userId`);
 
-ALTER TABLE `role_perm` ADD CONSTRAINT `fk_role_perm_perm_id` FOREIGN KEY (`perm_id`) REFERENCES `permission` (`id`);
+ALTER TABLE `role_perm` ADD CONSTRAINT `fk_role_perm_perm_id` FOREIGN KEY (`perm_id`) REFERENCES `permission` (`userId`);
 
-ALTER TABLE `user_role` ADD CONSTRAINT `fk_user_role_user_account_id` FOREIGN KEY (`user_id`) REFERENCES `user_account` (`id`);
+ALTER TABLE `user_role` ADD CONSTRAINT `fk_user_role_user_account_id` FOREIGN KEY (`user_id`) REFERENCES `user_account` (`userId`);
 
-ALTER TABLE `user_role` ADD CONSTRAINT `fk_user_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
+ALTER TABLE `user_role` ADD CONSTRAINT `fk_user_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`userId`);
 
-ALTER TABLE `permission` ADD CONSTRAINT `fk_perm_id_perm_sys_id` FOREIGN KEY (`app_id`) REFERENCES `application` (`id`);
+ALTER TABLE `permission` ADD CONSTRAINT `fk_perm_id_perm_sys_id` FOREIGN KEY (`app_id`) REFERENCES `application` (`userId`);
 
-ALTER TABLE `user_account` ADD CONSTRAINT `fk_user_account_user_login_1` FOREIGN KEY (`id`) REFERENCES `user_login` (`user_id`);
+ALTER TABLE `user_login` ADD CONSTRAINT `fk_user_account_user_login_1` FOREIGN KEY (`user_id`) REFERENCES `user_account` (`userId`);
 
-ALTER TABLE `application` ADD CONSTRAINT `fk_application_app_authorized_1` FOREIGN KEY (`id`) REFERENCES `app_authorized` (`app_id`);
+ALTER TABLE `app_authorized` ADD CONSTRAINT `fk_application_app_authorized_1` FOREIGN KEY (`app_id`) REFERENCES `application` (`userId`);
 
-ALTER TABLE `application` ADD CONSTRAINT `fk_application_app_authorized_2` FOREIGN KEY (`id`) REFERENCES `app_authorized` (`auth_app_id`);
+ALTER TABLE `app_authorized` ADD CONSTRAINT `fk_application_app_authorized_2` FOREIGN KEY (`auth_app_id`) REFERENCES `application` (`userId`);
