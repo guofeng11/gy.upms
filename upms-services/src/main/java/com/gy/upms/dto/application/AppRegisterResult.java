@@ -19,6 +19,8 @@ public class AppRegisterResult implements Serializable {
 
     private String ipv4;
 
+    private String permUrl;
+
     private AppRegisterResult appAuth;
 
 
@@ -68,6 +70,14 @@ public class AppRegisterResult implements Serializable {
 
     public void setAppAuth(AppRegisterResult appAuth) {
         this.appAuth = appAuth;
+    }
+
+    public String getPermUrl() {
+        return permUrl;
+    }
+
+    public void setPermUrl(String permUrl) {
+        this.permUrl = permUrl;
     }
 
     public AppRegisterResult() {

@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @Date: 2019/4/29 15:26
  * @Description:
  */
-public class ResultMessage<E extends Serializable> implements Serializable {
+public class ResultMessage<E> implements Serializable {
 
     private static final long serialVersionUID = -4411357774239744411L;
 
@@ -48,6 +48,7 @@ public class ResultMessage<E extends Serializable> implements Serializable {
     public ResultMessage(ResultType result) {
         this(result,result.name(),null);
     }
+    public ResultMessage(){}
     public int getResult() {
         return result;
     }

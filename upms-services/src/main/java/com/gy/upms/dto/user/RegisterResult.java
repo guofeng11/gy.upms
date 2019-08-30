@@ -120,6 +120,7 @@ public class RegisterResult implements Serializable {
         this.jobtitleId = jobtitleId;
     }
 
+    public RegisterResult(){}
     public RegisterResult(Integer id, String username, String nickname, String token, String email, String phone, String usertype, Integer comeform, Integer userlevel, Integer orgId, Integer jobtitleId) {
         this.id = id;
         this.username = username;

@@ -2,6 +2,8 @@ package com.gy.upms.dto.user;
 
 import com.gy.upms.dto.UserSecurity;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -12,14 +14,16 @@ import java.io.Serializable;
 public class DeleteUser implements Serializable {
     private static final long serialVersionUID = -4879673178595476529L;
 
-    private int[] ids;
+    private Integer[] ids;
+    @NotNull(message = "{user.security.notNull}")
+    @Valid
     private UserSecurity userSecurity;
 
-    public int[] getIds() {
+    public Integer[] getIds() {
         return ids;
     }
 
-    public void setIds(int[] ids) {
+    public void setIds(Integer[] ids) {
         this.ids = ids;
     }
 

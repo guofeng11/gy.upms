@@ -2,6 +2,9 @@ package com.gy.upms.dto.user;
 
 import com.gy.upms.dto.UserSecurity;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -11,14 +14,18 @@ import java.io.Serializable;
  */
 public class DetailUser implements Serializable {
     private static final long serialVersionUID = -2154551875200021261L;
-    private int id;
+    @NotNull
+    @Min(value = 1,message = "{user.userId.notNull}")
+    private Integer id;
+    @NotNull(message = "{user.security.notNull}")
+    @Valid
     private UserSecurity userSecurity;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

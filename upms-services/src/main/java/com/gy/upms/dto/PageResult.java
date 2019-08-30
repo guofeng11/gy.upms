@@ -1,7 +1,5 @@
 package com.gy.upms.dto;
 
-import com.gy.upms.dto.user.SearchUserResult;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,7 +11,7 @@ import java.util.List;
 public class PageResult<E> implements Serializable {
     private static final long serialVersionUID = 8352723229942292204L;
     private OutPage page;
-    private List<E> users;
+    private List<E> data;
 
     public OutPage getPage() {
         return page;
@@ -23,12 +21,12 @@ public class PageResult<E> implements Serializable {
         this.page = page;
     }
 
-    public List<E> getUsers() {
-        return users;
+    public List<E> getData() {
+        return data;
     }
 
-    public void setUsers(List<E> users) {
-        this.users = users;
+    public void setData(List<E> data) {
+        this.data = data;
     }
 
     public PageResult() {
@@ -40,6 +38,6 @@ public class PageResult<E> implements Serializable {
 
     public PageResult(OutPage page, List<E> users) {
         this.page = page;
-        this.users = users;
+        this.data = users;
     }
 }

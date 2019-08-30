@@ -1,5 +1,7 @@
 package com.gy.upms.dto.user;
 
+
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 /**
@@ -10,14 +12,18 @@ import java.io.Serializable;
 public class Register implements Serializable {
     private static final long serialVersionUID = -8888761793124185252L;
 
+    @NotEmpty(message = "{user.name.notNull}")
     private String username;
 
     private String nickname;
 
+    @NotNull
     private String password;
 
+    @Email
     private String email;
 
+    @NotNull
     private String phone;
 
 
@@ -61,6 +67,7 @@ public class Register implements Serializable {
         this.phone = phone;
     }
 
+    public Register(){}
 
     public Register(String username, String nickname, String password, String email, String phone) {
         this.username = username;

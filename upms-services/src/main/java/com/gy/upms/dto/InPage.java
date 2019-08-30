@@ -1,5 +1,6 @@
 package com.gy.upms.dto;
 
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 
 /**
@@ -7,10 +8,13 @@ import java.io.Serializable;
  * @Date: 2019/4/29 16:24
  * @Description:
  */
+
 public class InPage implements Serializable {
     private static final long serialVersionUID = 5302833461026925161L;
 
+    @Min(value = 1,message = "{page.current.min}")
     private int currentPage;
+    @Min(value = 1,message = "{page.rows.min}")
     private int pageRows;
 
     public InPage(){}

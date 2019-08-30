@@ -1,5 +1,6 @@
 package com.gy.upms.dto.user;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -11,6 +12,7 @@ public class Login implements Serializable {
 
     private static final long serialVersionUID = -7083464652572271608L;
 
+    @NotEmpty
     private String userName;
 
     public String getUserName() {
@@ -29,5 +31,6 @@ public class Login implements Serializable {
         this.password = password;
     }
 
+    @NotEmpty
     private String password;
 }

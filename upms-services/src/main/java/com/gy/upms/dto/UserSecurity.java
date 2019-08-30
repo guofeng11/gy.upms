@@ -1,5 +1,7 @@
 package com.gy.upms.dto;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -10,7 +12,9 @@ import java.io.Serializable;
 public class UserSecurity implements Serializable {
     private static final long serialVersionUID = -3310613673614133459L;
 
+    @Min(value = 1,message = "{user.security.id}")
     private Integer id;
+    @NotEmpty(message = "{user.security.token}")
     private  String token;
 
     public Integer getId() {
@@ -29,6 +33,9 @@ public class UserSecurity implements Serializable {
         this.token = token;
     }
 
+    public UserSecurity(){
+
+    }
     public UserSecurity(Integer id, String token) {
         this.id = id;
         this.token = token;
