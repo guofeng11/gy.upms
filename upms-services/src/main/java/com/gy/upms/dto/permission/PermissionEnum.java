@@ -22,4 +22,5 @@ public class PermissionEnum {
             this.status=status;
         }
     }
+
 }

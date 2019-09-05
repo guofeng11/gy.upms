@@ -1,6 +1,6 @@
 
 CREATE TABLE `user_account` (
-	`userId` INT NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+	`id` INT NOT NULL AUTO_INCREMENT COMMENT '自增主键',
 	`username` VARCHAR (50) NOT NULL COMMENT '用户名',
 	`nickname` VARCHAR (10) NULL,
 	`password` VARCHAR (32) NOT NULL COMMENT '密码',
@@ -15,7 +15,7 @@ CREATE TABLE `user_account` (
 	`createtime` datetime NOT NULL,
 	`creater_id` INT NULL COMMENT '创建人编号',
 	`creater` VARCHAR (50) NULL,
-	PRIMARY KEY (`userId`)
+	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `user_info` (
@@ -44,13 +44,13 @@ CREATE TABLE `user_info` (
 );
 
 CREATE TABLE `server_log` (
-	`userId` CHAR (36) NOT NULL,
+	`id` CHAR (36) NOT NULL,
 	`gate_way` VARCHAR (100) NULL COMMENT '服务IP或服务器名',
 	`address` VARCHAR (255) NULL COMMENT '访问地址',
 	`remote_addr` VARCHAR (100) NULL COMMENT '访问来源地址',
 	`state_time` datetime NOT NULL,
     `http_method` VARCHAR(8) NULL,
-	PRIMARY KEY (`userId`)
+	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `address` (
@@ -68,7 +68,7 @@ CREATE TABLE `address` (
 );
 
 CREATE TABLE `organization` (
-	`org_id` INT NOT NULL AUTO_INCREMENT COMMENT,
+	`org_id` INT NOT NULL AUTO_INCREMENT COMMENT '组织编号',
 	`org_code` VARCHAR (16) NULL COMMENT '组织代码',
 	`org_name_cn` VARCHAR (100) NULL,
 	`org_name_en` VARCHAR (200) NULL,
@@ -85,7 +85,7 @@ CREATE TABLE `organization` (
 );
 
 CREATE TABLE `job_title` (
-	`userId` INT NOT NULL,
+	`id` INT NOT NULL,
 	`job_title` VARCHAR (50) NULL,
 	`job_title_en` VARCHAR (50) NULL,
 	`level` INT NULL DEFAULT 1,
@@ -93,15 +93,15 @@ CREATE TABLE `job_title` (
 	`create_id` INT NULL,
 	`creater` VARCHAR (50) NULL,
 	`create_time` datetime NULL ON UPDATE CURRENT_TIMESTAMP,
-	PRIMARY KEY (`userId`)
+	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `permission` (
-	`userId` INT NOT NULL AUTO_INCREMENT,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`app_id` INT NOT NULL,
 	`perm_key` VARCHAR (50) NOT NULL,
-	`perm_name_cn` VARCHAR (10) NOT NULL,
-	`perm_name_en` VARCHAR (10) NOT NULL,
+	`perm_name_cn` VARCHAR (50) NOT NULL,
+	`perm_name_en` VARCHAR (50) NOT NULL,
 	`status` INT NULL DEFAULT 1,
 	`sort_order` INT NOT NULL DEFAULT 1 COMMENT '排序',
 	`level` INT NOT NULL,
@@ -115,34 +115,38 @@ CREATE TABLE `permission` (
 	`creater_id` INT NULL,
 	`creater` VARCHAR (50) NULL,
 	`create_time` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-	PRIMARY KEY (`userId`)
+	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `role` (
-	`userId` INT NOT NULL AUTO_INCREMENT,
-	`role_name` VARCHAR (10) NOT NULL,
-	`role_name_en` VARCHAR (10) NOT NULL,
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`role_name` VARCHAR (50) NOT NULL,
+	`role_name_en` VARCHAR (50) NOT NULL,
 	`sort_order` INT NOT NULL DEFAULT 1,
 	`status` INT NOT NULL,
 	`remark` VARCHAR (200) NULL,
 	`creater_id` INT NOT NULL,
 	`creater` LONGTEXT NOT NULL,
 	`create_time` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-	PRIMARY KEY (`userId`)
+	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `role_perm` (
+    `id` char(36)  NOT NULL DEFAULT 'UUID()',
 	`role_id` INT NOT NULL,
-	`perm_id` INT NOT NULL
+	`perm_id` INT NOT NULL,
+	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `user_role` (
+    `id` char(36)  NOT NULL ,
 	`user_id` INT NULL,
-	`role_id` INT NULL
+	`role_id` INT NULL,
+	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `application` (
-	`userId` INT NOT NULL AUTO_INCREMENT,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`app_name` VARCHAR (50) NOT NULL,
 	`app_name_en` VARCHAR (100) NULL,
 	`app_token` VARCHAR (64) NOT NULL,
@@ -152,7 +156,7 @@ CREATE TABLE `application` (
 	`creater_id` INT NOT NULL,
 	`creater` VARCHAR (50) NOT NULL,
 	`create_time` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-	PRIMARY KEY (`userId`)
+	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `user_login` (
@@ -164,27 +168,27 @@ CREATE TABLE `user_login` (
 );
 
 CREATE TABLE `app_authorized` (
-	`userId` CHAR (36) NOT NULL,
+	`id` CHAR (36) NOT NULL,
 	`app_id` INT NULL,
 	`auth_app_id` INT NULL,
     `perm_id` INT  NULL,
-	PRIMARY KEY (`userId`)
+	PRIMARY KEY (`id`)
 );
 
-ALTER TABLE `user_info` ADD CONSTRAINT `fk_user_info_user_id` FOREIGN KEY (`user_id`) REFERENCES `user_account` (`userId`);
+ALTER TABLE `user_info` ADD CONSTRAINT `fk_user_info_user_id` FOREIGN KEY (`user_id`) REFERENCES `user_account` (`id`);
 
-ALTER TABLE `role_perm` ADD CONSTRAINT `fk_role_perm_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`userId`);
+ALTER TABLE `role_perm` ADD CONSTRAINT `fk_role_perm_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
 
-ALTER TABLE `role_perm` ADD CONSTRAINT `fk_role_perm_perm_id` FOREIGN KEY (`perm_id`) REFERENCES `permission` (`userId`);
+ALTER TABLE `role_perm` ADD CONSTRAINT `fk_role_perm_perm_id` FOREIGN KEY (`perm_id`) REFERENCES `permission` (`id`);
 
-ALTER TABLE `user_role` ADD CONSTRAINT `fk_user_role_user_account_id` FOREIGN KEY (`user_id`) REFERENCES `user_account` (`userId`);
+ALTER TABLE `user_role` ADD CONSTRAINT `fk_user_role_user_account_id` FOREIGN KEY (`user_id`) REFERENCES `user_account` (`id`);
 
-ALTER TABLE `user_role` ADD CONSTRAINT `fk_user_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`userId`);
+ALTER TABLE `user_role` ADD CONSTRAINT `fk_user_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
 
-ALTER TABLE `permission` ADD CONSTRAINT `fk_perm_id_perm_sys_id` FOREIGN KEY (`app_id`) REFERENCES `application` (`userId`);
+ALTER TABLE `permission` ADD CONSTRAINT `fk_perm_id_perm_sys_id` FOREIGN KEY (`app_id`) REFERENCES `application` (`id`);
 
-ALTER TABLE `user_login` ADD CONSTRAINT `fk_user_account_user_login_1` FOREIGN KEY (`user_id`) REFERENCES `user_account` (`userId`);
+ALTER TABLE `user_login` ADD CONSTRAINT `fk_user_account_user_login_1` FOREIGN KEY (`user_id`) REFERENCES `user_account` (`id`);
 
-ALTER TABLE `app_authorized` ADD CONSTRAINT `fk_application_app_authorized_1` FOREIGN KEY (`app_id`) REFERENCES `application` (`userId`);
+ALTER TABLE `app_authorized` ADD CONSTRAINT `fk_application_app_authorized_1` FOREIGN KEY (`app_id`) REFERENCES `application` (`id`);
 
-ALTER TABLE `app_authorized` ADD CONSTRAINT `fk_application_app_authorized_2` FOREIGN KEY (`auth_app_id`) REFERENCES `application` (`userId`);
+ALTER TABLE `app_authorized` ADD CONSTRAINT `fk_application_app_authorized_2` FOREIGN KEY (`auth_app_id`) REFERENCES `application` (`id`);

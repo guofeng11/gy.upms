@@ -1,5 +1,6 @@
 package com.gy.upms.dao;
 
+import com.gy.upms.entity.Pageing;
 import com.gy.upms.entity.Permission;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -30,4 +31,14 @@ public interface PermissionMapper {
      */
     List<Permission> selectByUserIdAndAppId(@Param("userId") Integer userId, @Param("appId") Integer appId);
     List<Permission> selectByAppToken(@Param("token") String appToken);
+
+    /**
+     * 分页查询
+     * 中文、英文名称统一 模糊匹配 即 输入中文名 也查询匹配的英文名称
+     * @param record
+     * @param offset
+     * @param rows
+     * @return
+     */
+    Pageing<Permission> selectByPage(@Param("record")Permission record, @Param("offset")int offset, @Param("rows")int rows);
 }

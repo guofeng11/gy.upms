@@ -1,7 +1,7 @@
 package com.gy.upms.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Permission implements Serializable {
@@ -39,7 +39,7 @@ public class Permission implements Serializable {
 
     private String creater;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -179,11 +179,11 @@ public class Permission implements Serializable {
         this.creater = creater == null ? null : creater.trim();
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 

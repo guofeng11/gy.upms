@@ -2,30 +2,103 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gy.upms.dao.RolePermMapper">
   <resultMap id="BaseResultMap" type="com.gy.upms.entity.RolePerm">
+    <id column="id" jdbcType="CHAR" property="id" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
-    <result column="perm_id" jdbcType="INTEGER" property="permIds" />
+    <result column="perm_id" jdbcType="INTEGER" property="permId" />
   </resultMap>
+  <sql id="Base_Column_List">
+    id, role_id, perm_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from role_perm
+    where id = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from role_perm
+    where id = #{id,jdbcType=CHAR}
+  </delete>
   <insert id="insert" parameterType="com.gy.upms.entity.RolePerm">
-    insert into role_perm (role_id, perm_id)
-    values (#{roleId,jdbcType=INTEGER}, #{permIds,jdbcType=INTEGER})
+    insert into role_perm (id, role_id, perm_id
+      )
+    values (#{id,jdbcType=CHAR}, #{roleId,jdbcType=INTEGER}, #{permId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.gy.upms.entity.RolePerm">
     insert into role_perm
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="roleId != null">
         role_id,
       </if>
-      <if test="permIds != null">
+      <if test="permId != null">
         perm_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
       <if test="roleId != null">
         #{roleId,jdbcType=INTEGER},
       </if>
-      <if test="permIds != null">
-        #{permIds,jdbcType=INTEGER},
+      <if test="permId != null">
+        #{permId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gy.upms.entity.RolePerm">
+    update role_perm
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="permId != null">
+        perm_id = #{permId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gy.upms.entity.RolePerm">
+    update role_perm
+    set role_id = #{roleId,jdbcType=INTEGER},
+      perm_id = #{permId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+    <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+         delete from role_perm
+    where role_id = #{roleId,jdbcType=INTEGER}
+    </delete>
+    <select id="selectByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from role_perm
+        where role_id = #{roleId,jdbcType=INTEGER}
+    </select>
+    <select id="selectByRoleIdForPermission" parameterType="java.lang.Integer" resultMap="com.gy.upms.dao.PermissionMapper.BaseResultMap">
+        select
+        <include refid="com.gy.upms.dao.PermissionMapper.Base_Column_List" />
+        from permission
+        where exists (select 1 from role_perm where role_id = #{roleId,jdbcType=INTEGER} and role_perm.perm_id=permission.id)
+    </select>
+    <delete id="bulkDeleteByKey" parameterType="java.util.List">
+        delete from role_perm
+        where 1=2
+        <if test="ids!=null and ids.size()>0">
+            or id in
+            <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+    <insert id="bulkInsert" parameterType="java.util.List">
+        insert into role_perm (id, perm_id,role_id)
+        values
+        <foreach collection="records" index="index" item="item" separator="," >
+            (uuid(),#{item.permId,jdbcType=INTEGER}, #{item.roleId,jdbcType=INTEGER})
+        </foreach>
+    </insert>
 </mapper>

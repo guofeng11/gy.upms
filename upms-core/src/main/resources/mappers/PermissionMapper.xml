@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gy.upms.dao.PermissionMapper">
   <resultMap id="BaseResultMap" type="com.gy.upms.entity.Permission">
-    <id column="id" jdbcType="INTEGER" property="userId" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="app_id" jdbcType="INTEGER" property="appId" />
     <result column="perm_key" jdbcType="VARCHAR" property="permKey" />
     <result column="perm_name_cn" jdbcType="VARCHAR" property="permNameCn" />
@@ -22,7 +22,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    userId, app_id, perm_key, perm_name_cn, perm_name_en, status, sort_order, level, parent_id,
+    id, app_id, perm_key, perm_name_cn, perm_name_en, status, sort_order, level, parent_id,
     perm_url, is_navigation, http_method, is_login, ico, remark, creater_id, creater, 
     create_time
   </sql>
@@ -291,4 +291,72 @@
         select 1 from application where status=1 and app_token = #{token} and permission.app_id=application.userId
     )
   </select>
+    <select id="selectByPage" resultMap="BaseResultMap,Rows">
+        select
+        <include refid="com.gy.upms.dao.CommonMapper.pageSelectColumn"></include>
+        <include refid="Base_Column_List"></include>
+        from permission
+        <where>
+            <choose>
+                <when test="record.id !=null">
+                    id = #{record.id,jdbcType=INTEGER}
+                </when>
+                <otherwise>
+                    <if test="record.permKey != null">
+                        perm_key = #{record.permKey,jdbcType=VARCHAR},
+                    </if>
+                    <if test="record.permNameCn != null">
+                        <bind name="permName" value="record.permNameCn + '%'"/>
+                        or (perm_name_cn like #{permName } or perm_name_en like #{permName })
+                    </if>
+                    <if test="record.permNameEn != null">
+                        <bind name="permName" value="record.permNameEn + '%'"/>
+                        or (perm_name_cn like #{permName } or perm_name_en like #{permName })
+                    </if>
+                    <if test="record.status != null || record.status != -1">
+                        and status = #{record.status,jdbcType=INTEGER},
+                    </if>
+                    <if test="record.sortOrder != null">
+                        and sort_order = #{record.sortOrder,jdbcType=INTEGER},
+                    </if>
+                    <if test="record.level != null">
+                        and level = #{record.level,jdbcType=INTEGER},
+                    </if>
+                    <if test="record.parentId != null">
+                        and  parent_id = #{record.parentId,jdbcType=INTEGER},
+                    </if>
+                    <if test="record.permUrl != null">
+                        and perm_url = #{record.permUrl,jdbcType=VARCHAR},
+                    </if>
+                    <if test="record.isNavigation != null">
+                        and is_navigation = #{record.isNavigation,jdbcType=INTEGER},
+                    </if>
+                    <if test="record.httpMethod != null">
+                        http_method = #{record.httpMethod,jdbcType=VARCHAR},
+                    </if>
+                    <if test="record.isLogin != null">
+                        and is_login = #{record.isLogin,jdbcType=INTEGER},
+                    </if>
+                    <if test="record.ico != null">
+                        and ico = #{record.ico,jdbcType=VARCHAR},
+                    </if>
+                    <if test="record.remark != null">
+                        and remark = #{record.remark,jdbcType=VARCHAR},
+                    </if>
+                    <if test="record.createrId != null">
+                        and creater_id = #{record.createrId,jdbcType=INTEGER},
+                    </if>
+                    <if test="record.creater != null">
+                        and  creater = #{record.creater,jdbcType=VARCHAR},
+                    </if>
+                    <if test="record.createTime != null">
+                        and create_time = #{record.createTime,jdbcType=TIMESTAMP},
+                    </if>
+                </otherwise>
+            </choose>
+        </where>
+        order by id asc
+        LIMIT #{offset},#{rows};
+        <include refid="com.gy.upms.dao.CommonMapper.pageSelectRows"></include>
+    </select>
 </mapper>

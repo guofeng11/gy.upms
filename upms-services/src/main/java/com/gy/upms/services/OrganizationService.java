@@ -16,11 +16,11 @@ import java.util.List;
  */
 @Validated
 public interface OrganizationService {
-    public ResultMessage<String> add (@Valid AddOrg data);
-    public ResultMessage<String> edit (@Valid EditOrg data);
-    public ResultMessage<PageResult<SearchOrgResult>> search (@Valid SeachOrg data);
-    public ResultMessage<String> delete (@Valid  DeleteOrg data);
-    public ResultMessage<DetailOrgResult> detail (@Valid  DetailOrg data);
-    public ResultMessage<String> setOrgUser (@Valid  SetOrgUser data);
-    public ResultMessage<List<GetOrgUserResult>> getOrgUser (@Valid  GetOrgUser data);
+    ResultMessage<String> add(@Valid AddOrg data);
+    ResultMessage<String> edit(@Valid EditOrg data);
+    ResultMessage<PageResult<SearchOrgResult>> search(@Valid SeachOrg data);
+    ResultMessage<String> delete(@Valid DeleteOrg data);
+    ResultMessage<DetailOrgResult> detail(@Valid DetailOrg data);
+    ResultMessage<String> setOrgUser(@Valid SetOrgUser data);
+    ResultMessage<List<GetOrgUserResult>> getOrgUser(@Valid GetOrgUser data);
 }

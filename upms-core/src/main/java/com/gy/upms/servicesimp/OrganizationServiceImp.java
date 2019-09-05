@@ -294,6 +294,7 @@ public class OrganizationServiceImp implements OrganizationService {
                     userOrgMapper.bulkUpdate(updateOrgUser);
                 }
             }
+            resultMessage = new ResultMessage<>(ResultMessage.ResultType.SUCCESS);
             return resultMessage;
         } catch (Exception ex) {
             String jsonData = JacksonUtils.obj2json(data);

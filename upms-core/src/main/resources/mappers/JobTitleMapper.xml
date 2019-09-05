@@ -125,4 +125,82 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <select id="select" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from job_title
+        <where>
+            <choose>
+                <when test="record.id !=null">
+                    id = #{record.id,jdbcType=INTEGER}
+                </when>
+
+                <otherwise>
+                    <if test="record.jobTitle != null">
+                        job_title = #{record.jobTitle,jdbcType=VARCHAR},
+                    </if>
+                    <if test="record.jobTitleEn != null">
+                        job_title_en = #{record.jobTitleEn,jdbcType=VARCHAR},
+                    </if>
+                    <if test="record.level != null">
+                        level = #{record.level,jdbcType=INTEGER},
+                    </if>
+                    <if test="record.remark != null">
+                        remark = #{record.remark,jdbcType=VARCHAR},
+                    </if>
+                    <if test="record.createrId != null">
+                        create_id = #{record.createrId,jdbcType=INTEGER},
+                    </if>
+                    <if test="record.creater != null">
+                        creater = #{record.creater,jdbcType=VARCHAR},
+                    </if>
+                    <if test="record.createTime != null">
+                    create_time = #{record.createTime,jdbcType=TIMESTAMP},
+                </otherwise>
+            </choose>
+        </where>
+        order by id asc
+    </select>
+    <select id="selectByPage" resultMap="BaseResultMap,Rows">
+        select
+        <include refid="com.gy.upms.dao.CommonMapper.pageSelectColumn"></include>
+        <include refid="Base_Column_List" />
+        from job_title
+        <where>
+            <choose>
+                <when test="record.id !=null">
+                    id = #{record.id,jdbcType=INTEGER}
+                </when>
+
+                <otherwise>
+                    <if test="record.jobTitle != null">
+                        <bind name="jobTitle" value="record.jobTitle + '%'"/>
+                        (job_title like #{jobTitle } or job_title_en like #{jobTitle })
+                    </if>
+                    <if test="record.job_title_en != null">
+                        <bind name="jobTitle" value="record.job_title_en + '%'"/>
+                        and (job_title like #{roleName } or job_title_en like #{roleName })
+                    </if>
+
+                    <if test="record.level != null">
+                        level = #{record.level,jdbcType=INTEGER},
+                    </if>
+                    <if test="record.remark != null">
+                        remark = #{record.remark,jdbcType=VARCHAR},
+                    </if>
+                    <if test="record.createrId != null">
+                        create_id = #{record.createrId,jdbcType=INTEGER},
+                    </if>
+                    <if test="record.creater != null">
+                        creater = #{record.creater,jdbcType=VARCHAR},
+                    </if>
+                    <if test="record.createTime != null">
+                    create_time = #{record.createTime,jdbcType=TIMESTAMP},
+                </otherwise>
+            </choose>
+        </where>
+        order by id asc
+        LIMIT #{offset},#{rows};
+        <include refid="com.gy.upms.dao.CommonMapper.pageSelectRows"></include>
+    </select>
 </mapper>

@@ -62,7 +62,7 @@ public class UserAuthenticationInterceptor extends HandlerInterceptorAdapter {
                 Permission permUrl = optionalPermission.get();
                 String requestMethod = request.getMethod().toUpperCase();
                 //请求http method 与app perm 设置相同
-                if (permUrl.getPermUrl().toUpperCase().contains(requestMethod)) {
+                if (permUrl.getHttpMethod().toUpperCase().contains(requestMethod)) {
                     //判断是否需要登录
                     if (TrueFalse.valueOf(permUrl.getIsLogin()).getBooleanValue() ) {
 

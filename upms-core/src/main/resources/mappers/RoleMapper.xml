@@ -156,4 +156,95 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <select id="select" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        from role
+        <where>
+            <choose>
+                <when test="record.id !=null">
+                    id = #{record.id,jdbcType=INTEGER}
+                </when>
+
+                <otherwise>
+                    <if test="record.roleName != null">
+                        <bind name="roleName" value="record.roleName + '%'"/>
+                        role_name like #{roleName }
+                    </if>
+                    <if test="record.roleNameEn != null">
+                        <bind name="roleName" value="record.roleNameEn + '%'"/>
+                        and ( role_name_en like #{roleName })
+                    </if>
+                    <if test="record.sortOrder != null">
+                        and sort_order = #{record.sortOrder,jdbcType=INTEGER},
+                    </if>
+                    <if test="record.status != null || record.status != -1">
+                        and  status = #{record.status,jdbcType=INTEGER},
+                    </if>
+                    <if test="record.remark != null">
+                        and  remark = #{record.remark,jdbcType=VARCHAR},
+                    </if>
+                    <if test="record.createrId != null">
+                        and   creater_id = #{record.createrId,jdbcType=INTEGER},
+                    </if>
+                    <if test="record.createTime != null">
+                        and  create_time = #{record.createTime,jdbcType=TIMESTAMP},
+                    </if>
+                    <if test="record.creater != null">
+                        and  creater = #{record.creater,jdbcType=LONGVARCHAR},
+                    </if>
+                </otherwise>
+            </choose>
+        </where>
+        order by id asc
+    </select>
+    <select id="selectByPage" resultMap="BaseResultMap,Rows">
+        select
+        <include refid="com.gy.upms.dao.CommonMapper.pageSelectColumn"></include>
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        from role
+        <where>
+            <choose>
+                <when test="record.id !=null">
+                    id = #{record.id,jdbcType=INTEGER}
+                </when>
+
+            <otherwise>
+                <if test="record.roleName != null">
+                    <bind name="roleName" value="record.roleName + '%'"/>
+                    (role_name like #{roleName } or role_name_en like #{roleName })
+                </if>
+                <if test="record.roleNameEn != null">
+                    <bind name="roleName" value="record.roleNameEn + '%'"/>
+                    and (role_name like #{roleName } or role_name_en like #{roleName })
+                </if>
+                <if test="record.sortOrder != null">
+                   and sort_order = #{record.sortOrder,jdbcType=INTEGER},
+                </if>
+                <if test="record.status != null || record.status != -1">
+                    and  status = #{record.status,jdbcType=INTEGER},
+                </if>
+                <if test="record.remark != null">
+                    and  remark = #{record.remark,jdbcType=VARCHAR},
+                </if>
+                <if test="record.createrId != null">
+                    and   creater_id = #{record.createrId,jdbcType=INTEGER},
+                </if>
+                <if test="record.createTime != null">
+                    and  create_time = #{record.createTime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="record.creater != null">
+                    and  creater = #{record.creater,jdbcType=LONGVARCHAR},
+                </if>
+            </otherwise>
+            </choose>
+        </where>
+        order by id asc
+        LIMIT #{offset},#{rows};
+        <include refid="com.gy.upms.dao.CommonMapper.pageSelectRows"></include>
+    </select>
 </mapper>
