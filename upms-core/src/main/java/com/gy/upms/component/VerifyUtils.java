@@ -137,7 +137,7 @@ public class VerifyUtils {
         Object redisLoginResult =RedisUtil.get(key);
         //首先从缓存获取
         if (redisLoginResult!=null){
-            userLoginInfo=  (UserLoginInfo)redisLoginResult;
+            userLoginInfo=  JacksonUtils.obj2pojo(redisLoginResult,UserLoginInfo.class) ;
             jCacheCacheManager.getCache(CACHE_USERS).put(key,userLoginInfo);
         }
         else{
@@ -172,7 +172,7 @@ public class VerifyUtils {
         Object redisResult = RedisUtil.get(key);
         //首先从缓存获取
         if (redisResult!=null){
-            appAuthInfo=  (AppAndAuthInfo)redisResult;
+            appAuthInfo=  JacksonUtils.obj2pojo(redisResult,AppAndAuthInfo.class);
             jCacheCacheManager.getCache(CACHE_APPS).put(key,appAuthInfo);
         }
         else{
@@ -205,7 +205,7 @@ public class VerifyUtils {
         Object redisResult = RedisUtil.get(key);
         //首先从缓存获取
         if (redisResult!=null){
-            permissionList=  (List<Permission>)redisResult;
+            permissionList=  JacksonUtils.json2list(redisResult,Permission.class) ;
             jCacheCacheManager.getCache(CACHE_APPS).put(key,permissionList);
         }
         else{
@@ -242,7 +242,7 @@ public class VerifyUtils {
         Object redisResult = RedisUtil.get(key);
         //首先从缓存获取
         if (redisResult!=null){
-            permissionList=  (List<Permission>)redisResult;
+            permissionList=  JacksonUtils.json2list(redisResult,Permission.class);
             jCacheCacheManager.getCache(CACHE_USERS).put(key,permissionList);
         }
         else{
@@ -280,7 +280,7 @@ public class VerifyUtils {
         Object redisResult = RedisUtil.get(key);
         //首先从缓存获取
         if (redisResult!=null){
-            userOrgList=  (List<UserOrg>)redisResult;
+            userOrgList=   JacksonUtils.json2list(redisResult,UserOrg.class) ;
             jCacheCacheManager.getCache(CACHE_USERS).put(key,userOrgList);
         }
         else{

@@ -363,7 +363,7 @@ public class RoleServiceImp implements RoleService {
             return resultMessage;
         }
     }
-    @PostMapping("/perm/set")
+    @PostMapping("/perm/get")
     @Override
     public ResultMessage<List<GetRolePermResult>> getRolePerm(@RequestBody GetRolePerm data) {
         ResultMessage<List<GetRolePermResult>> resultMessage = null;

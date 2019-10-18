@@ -155,7 +155,8 @@
                         creater = #{record.creater,jdbcType=VARCHAR},
                     </if>
                     <if test="record.createTime != null">
-                    create_time = #{record.createTime,jdbcType=TIMESTAMP},
+                    create_time = #{record.createTime,jdbcType=TIMESTAMP}
+                    </if>
                 </otherwise>
             </choose>
         </where>
@@ -195,7 +196,8 @@
                         creater = #{record.creater,jdbcType=VARCHAR},
                     </if>
                     <if test="record.createTime != null">
-                    create_time = #{record.createTime,jdbcType=TIMESTAMP},
+                    create_time = #{record.createTime,jdbcType=TIMESTAMP}
+                    </if>
                 </otherwise>
             </choose>
         </where>

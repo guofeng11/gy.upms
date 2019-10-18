@@ -26,7 +26,7 @@ import java.util.Optional;
 /**
  * @Auther: guofeng
  * @Date: 2019/5/16 13:35
- * @Description:对访问请求的服务器 验证
+ * @Description: 对访问请求的服务器 验证
  */
 @Component
 public class UserAuthenticationInterceptor extends HandlerInterceptorAdapter {
@@ -76,7 +76,8 @@ public class UserAuthenticationInterceptor extends HandlerInterceptorAdapter {
                                     return false;
                                 }
                                 //权限授权节点 "userSecurity"
-                                Map<String, Object> userSecurity = (Map<String, Object>) params.get("userSecurity");
+                                Map<String, Object> userSecurity = JacksonUtils.json2map(params.get("userSecurity"));
+
                                 if (userSecurity == null) {
                                     sendError(response, HttpServletResponse.SC_UNAUTHORIZED, messageUtils.getMessage("BASE.ERROR.PARAMS"));
                                     return false;

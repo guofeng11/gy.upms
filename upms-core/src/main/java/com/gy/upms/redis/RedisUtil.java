@@ -84,7 +84,7 @@ public  class RedisUtil {
         /**
          * 普通缓存获取
          * @param key 键
-         * @return 值
+         * @return 值 obj 转实体 调用 json2pojo 方法
          */
     public static Object get(String key) {
         return key == null ? null : redisTemplate.opsForValue().get(key);

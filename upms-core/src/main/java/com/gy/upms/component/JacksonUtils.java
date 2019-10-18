@@ -1,11 +1,15 @@
 package com.gy.upms.component;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -21,14 +25,18 @@ import java.util.Map;
  */
 @Component
 public class JacksonUtils {
-    private final static ObjectMapper objectMapper = new ObjectMapper();
+    private final static ObjectMapper objectMapper;
 
     private JacksonUtils() {
 
     }
 
-    public static ObjectMapper getInstance() {
-        return objectMapper;
+     static{
+         objectMapper=new ObjectMapper();
+        // 解决jackson2无法反序列化LocalDateTime的问题
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
     }
 
     /**
@@ -71,7 +79,7 @@ public class JacksonUtils {
     /**
      * json字符串转换为map
      */
-    public static <T> Map<String, Object> json2map(String jsonString) {
+    public static  Map<String, Object> json2map(String jsonString) {
 
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         try {
@@ -80,7 +88,10 @@ public class JacksonUtils {
             return  null;
         }
     }
-
+    public static  Map<String, Object> json2map(Object jsonString) {
+        String josnData = obj2json(jsonString);
+        return json2map(josnData, Object.class);
+    }
     /**
      * json字符串转换为map
      */
@@ -203,7 +214,10 @@ public class JacksonUtils {
         }
         return lst;
     }
-
+    public static <T> List<T> json2list(Object obj, Class<T> clazz){
+        String jsonString=obj2json(obj);
+        return  json2list(jsonString,clazz);
+    }
 
     /**
      * 获取泛型的Collection Type

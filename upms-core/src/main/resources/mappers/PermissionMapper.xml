@@ -288,7 +288,7 @@
     where
       permission.status=1
       and  exists (
-        select 1 from application where status=1 and app_token = #{token} and permission.app_id=application.userId
+        select 1 from application where status=1 and app_token = #{token} and permission.app_id=application.id
     )
   </select>
     <select id="selectByPage" resultMap="BaseResultMap,Rows">
