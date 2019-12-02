@@ -1,6 +1,8 @@
 export default {
   home: '首頁',
   login: '登錄',
+  user: '用戶',
+  user_list: '客戶帳號',
   components: '组件',
   count_to_page: '数字渐变',
   tables_page: '多功能表格',

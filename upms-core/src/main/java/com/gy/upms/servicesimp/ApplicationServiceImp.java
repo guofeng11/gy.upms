@@ -60,7 +60,7 @@ public class ApplicationServiceImp implements ApplicatinService {
             }
 
             LocalDateTime nowTime = LocalDateTime.now();
-
+ 
             String appToken=addApp.getAppToken();
             if (StringUtils.isEmpty(appToken)){
                 appToken= UUID.randomUUID().toString();

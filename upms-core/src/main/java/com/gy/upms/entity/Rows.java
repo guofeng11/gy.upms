@@ -36,7 +36,8 @@ public class Rows implements Serializable {
 
 
     public int getTotalPage(){
-        return  this.pageSize==0?1:(int)Math.ceil(this.totalRows *1.0/this.pageSize);
+          totalPage = this.pageSize==0?1:(int)Math.ceil(this.totalRows *1.0/this.pageSize);
+          return totalPage;
     }
 
     public Rows(){}

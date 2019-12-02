@@ -51,13 +51,13 @@ public class ServerAuthenticationFilter implements Filter {
                 return;
             }
             // 获取服务器token
-            String authorizationToken = httpRequest.getHeader("Authorization").toLowerCase();
+
+            String authorizationToken = httpRequest.getHeader("Authorization");
 
             if (authorizationToken == null || authorizationToken.isEmpty()) {
                 sendError(httpResponse, HttpServletResponse.SC_UNAUTHORIZED, messageUtils.getMessage("BASE.NOAUTHORIZATION"));
                 return;
             }
-
             log.debug("应用授权：{}", authorizationToken);
             // 验证
             AppAndAuthInfo appAuthInfos = VerifyUtils.getAppAuth(ApplicationProperties.getAppToken());
@@ -66,7 +66,7 @@ public class ServerAuthenticationFilter implements Filter {
                 return;
             } else {
                 List<AppAuthInfo> authInfos = appAuthInfos.getAuthInfos();
-                boolean authTrue = authInfos.stream().anyMatch(c -> c.getAppToken().toLowerCase().equals(authorizationToken));
+                boolean authTrue = authInfos.stream().anyMatch(c -> c.getAppToken().toLowerCase().equals(authorizationToken.toLowerCase()));
                 if (!authTrue) {
                     sendError(httpResponse, HttpServletResponse.SC_UNAUTHORIZED, messageUtils.getMessage("BASE.NOAUTHORIZATION"));
                     log.debug("应用没有授权：{}", authorizationToken);

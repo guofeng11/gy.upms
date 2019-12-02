@@ -50,15 +50,36 @@ export default [
       }
     ]
   },
-	{
-		path:'/user',
-		name:'user',
-		meta:{
-			title:'{{user}}',
-			icon:'md-people'
-		}
-	},
   {
+  	path: '/user',
+  	name: 'user',
+  	meta: {
+  	  icon: 'md-people',
+  	  title: 'user-用户管理'
+  	},
+  	component: Main,
+  	children: [
+  		{
+  			path: 'user_customer',
+  			name: 'user customer',
+  			meta: {
+  				icon: 'md-list',
+  				title: '客户账号'
+  			},
+  			component: () => import('@/view/user/user-customer.vue')
+  		},
+			{
+				path: 'user_employee',
+				name: 'user employee',
+				meta: {
+					icon: 'md-list',
+					title: '员工账号'
+				},
+				component: () => import('@/view/user/user-employee.vue')
+			}
+  	]
+  },
+	{
     path: '',
     name: 'doc',
     meta: {
@@ -380,7 +401,7 @@ export default [
       }
     ]
   },
-  {
+	{
     path: '/multilevel',
     name: 'multilevel',
     meta: {

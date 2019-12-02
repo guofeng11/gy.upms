@@ -102,11 +102,8 @@ export default {
                 orgId : user.orgId,
                 jobTitleId : user.jobtitleId
               })
-            resolve()
-          } else {
-			       reject(data.message)
-          }
-
+						}
+            resolve(data)
         }).catch(err => {
           reject(err)
         })

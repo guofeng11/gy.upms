@@ -1,11 +1,8 @@
 package com.gy.upms.entity;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 
 public class UserLogin implements Serializable {

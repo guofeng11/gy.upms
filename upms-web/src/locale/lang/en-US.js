@@ -2,6 +2,7 @@ export default {
   home: 'Home',
   login: 'Login',
   user: 'user',
+  user_list: 'user cutomer',
   components: 'Components',
   count_to_page: 'Count-to',
   tables_page: 'Table',

@@ -27,7 +27,8 @@ export default {
       type: Array,
       default: () => {
         return [
-          { required: true, message: '账号不能为空', trigger: 'blur' }
+          { required: true, message: '账号不能为空', trigger: 'blur' },
+					{ type: 'string', min: 3, message: '最少3个字母组合', trigger: 'blur' }
         ]
       }
     },
@@ -35,7 +36,8 @@ export default {
       type: Array,
       default: () => {
         return [
-          { required: true, message: '密码不能为空', trigger: 'blur' }
+          { required: true, message: '密码不能为空', trigger: 'blur' },
+					{ type: 'string', min: 6, message: '最少6个字母组合', trigger: 'blur' }
         ]
       }
     }

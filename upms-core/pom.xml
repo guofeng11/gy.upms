@@ -13,7 +13,6 @@
 <properties>
     <upms.services.version>1.0-SNAPSHOT</upms.services.version>
     <commons.version>1.0-SNAPSHOT</commons.version>
-    <spring.restdocs.mockmvc.version>2.0.3.RELEASE</spring.restdocs.mockmvc.version>
     <asciidoctor.maven.plugin.version>1.5.3</asciidoctor.maven.plugin.version>
     <maven.resources.plugin.version>2.7</maven.resources.plugin.version>
 </properties>
@@ -86,7 +85,6 @@
     <dependency>
         <groupId>org.springframework.restdocs</groupId>
         <artifactId>spring-restdocs-mockmvc</artifactId>
-        <version>${spring.restdocs.mockmvc.version}</version>
         <scope>test</scope>
     </dependency>
     <!--热部署-->

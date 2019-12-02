@@ -2,7 +2,6 @@ package com.gy.upms.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Application implements Serializable {
     private Integer id;
