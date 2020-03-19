@@ -1,0 +1,18 @@
+#必需是完全可执行文件，即打包配置为<executable>true</executable>
+#建立脚本文件在/etc/systemd/system 名为upms.service 
+#脚本
+[Unit]
+Description=upmsservice
+After=syslog.target
+
+[Service]
+User=upmsservice
+ExecStart=/usr/upms/upms-core-1.0-SNAPSHOT.jar
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
+
+#自动启动命令
+systemctl enable myapp.service
+

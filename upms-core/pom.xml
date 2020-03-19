@@ -119,11 +119,10 @@
 <!--            <configuration>-->
 <!--                <executable>true</executable>-->
 <!--            </configuration>-->
-            <!--            直接执行java -jar -->
+            <!-- 直接执行java -jar -->
             <executions>
                 <execution>
                     <goals>
-
                         <goal>repackage</goal>
                     </goals>
                 </execution>
