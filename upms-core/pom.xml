@@ -15,6 +15,7 @@
     <commons.version>1.0-SNAPSHOT</commons.version>
     <asciidoctor.maven.plugin.version>1.5.3</asciidoctor.maven.plugin.version>
     <maven.resources.plugin.version>2.7</maven.resources.plugin.version>
+    <spring.restdocs.mockmvc.version>2.0.3.RELEASE</spring.restdocs.mockmvc.version>
 </properties>
 
 <dependencies>

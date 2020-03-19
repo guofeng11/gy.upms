@@ -24,11 +24,16 @@ public class AppAuthRunner implements ApplicationRunner {
         log.debug("启动后执行");
         //启动加载授权信息
         AppAndAuthInfo appAuthInfos =VerifyUtils.getAppAuth(ApplicationProperties.getAppToken());
-        //初始化权限
-        VerifyUtils.getAppPerm(ApplicationProperties.getAppToken());
+
         //授权系统需从数据库初始化
+        if (appAuthInfos==null){
+            log.info("服务启动失败,系统信息未设置，请检查令牌或数据初始化设置");
+        }
         if (appAuthInfos.getAppInfo()==null){
             log.info("服务启动失败,未获取到配置信息");
         }
+        //初始化权限
+        VerifyUtils.getAppPerm(ApplicationProperties.getAppToken());
+
     }
 }
