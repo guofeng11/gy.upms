@@ -17,7 +17,7 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring.springframework.boot.version>2.1.6.RELEASE</spring.springframework.boot.version>
+        <spring.springframework.boot.version>2.1.13.RELEASE</spring.springframework.boot.version>
         <mybatis.spring.boot>2.1.0</mybatis.spring.boot>
         <commons.pool2>2.6.2</commons.pool2>
         <dubbo.version>2.7.1</dubbo.version>
