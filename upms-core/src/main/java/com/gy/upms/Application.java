@@ -6,6 +6,7 @@ import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * @Author: guofeng
@@ -14,6 +15,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
  */
 @SpringBootApplication
 @ServletComponentScan
+@EnableDiscoveryClient
 public class Application {
     private final static Logger log= LoggerFactory.getLogger(Application.class);
 

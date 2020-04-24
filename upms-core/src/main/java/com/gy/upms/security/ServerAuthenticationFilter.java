@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -30,6 +32,8 @@ import java.util.List;
 public class ServerAuthenticationFilter implements Filter {
 
     private  final  static Logger log= LoggerFactory.getLogger(ServerAuthenticationFilter.class);
+
+    final static HashSet<String> ignorePermCheck=new HashSet<>(Arrays.asList("/favicon.ico","/actuator/info","/actuator/health"));
 
     @Autowired
     private MessageUtils messageUtils;
@@ -46,7 +50,7 @@ public class ServerAuthenticationFilter implements Filter {
 
             String requestUrl = httpRequest.getRequestURI().toLowerCase();
 
-            if (requestUrl.equals("/favicon.ico") || requestUrl.equals("/")) {
+            if (ignorePermCheck.contains(requestUrl.toLowerCase()) || requestUrl.equals("/")) {
                 filterChain.doFilter(servletRequest, servletResponse);
                 return;
             }

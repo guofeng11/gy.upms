@@ -16,6 +16,7 @@
     <asciidoctor.maven.plugin.version>1.5.3</asciidoctor.maven.plugin.version>
     <maven.resources.plugin.version>2.7</maven.resources.plugin.version>
     <spring.restdocs.mockmvc.version>2.0.3.RELEASE</spring.restdocs.mockmvc.version>
+    <spring-cloud.version>Greenwich.SR5</spring-cloud.version>
 </properties>
 
 <dependencies>
@@ -42,6 +43,15 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-data-redis</artifactId>
     </dependency>
+    <!-- spring cloud -->
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+    </dependency>
     <!--mybatis-->
     <dependency>
         <groupId>org.mybatis.spring.boot</groupId>
@@ -52,16 +62,6 @@
         <artifactId>mysql-connector-java</artifactId>
     </dependency>
 
-    <!-- Aapche Dubbo  -->
-    <dependency>
-        <groupId>org.apache.dubbo</groupId>
-        <artifactId>dubbo-spring-boot-starter</artifactId>
-        <version>${dubbo.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.dubbo</groupId>
-        <artifactId>dubbo</artifactId>
-    </dependency>
     <!-- 高版本redis的lettuce需要commons-pool2 -->
     <dependency>
         <groupId>org.apache.commons</groupId>
@@ -108,13 +108,22 @@
         <artifactId>cache-api</artifactId>
     </dependency>
 </dependencies>
-
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 <build>
     <plugins>
         <plugin>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
-            <version>${spring.springframework.boot.version}</version>
             <!--unix完全可执行的jar 用于自定义脚本启动-->
 <!--            <configuration>-->
 <!--                <executable>true</executable>-->
