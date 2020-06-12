@@ -1,10 +1,10 @@
 package com.gy.upms.servicesimp;
 
-import com.gy.commons.encrypt.Base64_GY;
 import com.gy.upms.component.JacksonUtils;
 import com.gy.upms.dto.user.Login;
 import com.gy.upms.dto.user.Register;
 import com.gy.upms.dto.user.UserEnum;
+import gy.commons.security.encrypt.Base64_GY;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
