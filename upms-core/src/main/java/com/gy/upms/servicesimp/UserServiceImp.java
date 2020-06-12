@@ -1,7 +1,5 @@
 package com.gy.upms.servicesimp;
 
-import com.gy.commons.encrypt.Base64_GY;
-import com.gy.commons.encrypt.OneWay;
 import com.gy.upms.component.JacksonUtils;
 import com.gy.upms.component.MessageUtils;
 import com.gy.upms.component.VerifyUtils;
@@ -14,6 +12,8 @@ import com.gy.upms.dto.user.*;
 import com.gy.upms.entity.Pageing;
 import com.gy.upms.entity.UserAccount;
 import com.gy.upms.services.UserService;
+import gy.commons.security.encrypt.Base64_GY;
+import gy.commons.security.encrypt.OneWay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
