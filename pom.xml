@@ -25,7 +25,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <mybatis.spring.boot>2.1.0</mybatis.spring.boot>
         <commons.pool2>2.6.2</commons.pool2>
-        <dubbo.version>2.7.1</dubbo.version>
     </properties>
 
     <dependencyManagement>

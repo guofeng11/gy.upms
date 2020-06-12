@@ -1,8 +1,9 @@
 #必需是完全可执行文件，即打包配置为<executable>true</executable>
 #建立脚本文件在/etc/systemd/system 名为upms.service 
+#执行失败需要权限 chmod
 #脚本
 [Unit]
-Description=upmsservice
+Description=upmsservice 
 After=syslog.target
 
 [Service]
