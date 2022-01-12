@@ -20,7 +20,7 @@
         <spring.springframework.boot.version>2.1.13.RELEASE</spring.springframework.boot.version>
         <mybatis.spring.boot>2.1.0</mybatis.spring.boot>
         <commons.pool2>2.6.2</commons.pool2>
-        <dubbo.version>2.7.1</dubbo.version>
+        <dubbo.version>2.7.15</dubbo.version>
     </properties>
 
     <dependencyManagement>
